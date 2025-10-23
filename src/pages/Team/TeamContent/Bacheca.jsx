@@ -59,7 +59,7 @@ export default function Bacheca({ team, token }) {
       setPosts([addedPost, ...posts]);
       setNewPost("");
 
-      // Notifica Telegram (opzionale: solo se vuoi feedback visivo lato frontend)
+      // Notifica Telegram
 
     } catch (err) {
       console.error("Errore handleAddPost:", err);
@@ -68,7 +68,7 @@ export default function Bacheca({ team, token }) {
 
   const handleDeletePost = async (postId) => {
     try {
-      const res = await fetch(`${API_BASE}/`api/teams/${team._id}/posts/${postId}`, {
+      const res = await fetch(`${API_BASE}/api/teams/${team._id}/posts/${postId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
