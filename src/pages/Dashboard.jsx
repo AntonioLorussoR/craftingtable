@@ -7,7 +7,7 @@ export default function Dashboard({ token }) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/users/me", {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/users/me`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         const data = await res.json();
