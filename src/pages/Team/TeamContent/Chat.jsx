@@ -8,6 +8,8 @@ export default function Chat({ team, token, currentUserId }) {
   const socketRef = useRef(null);
   const messagesEndRef = useRef(null);
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+  
   useEffect(() => {
     if (!team) return;
 
@@ -15,7 +17,7 @@ export default function Chat({ team, token, currentUserId }) {
       socketRef.current.disconnect();
     }
 
-    socketRef.current = io("http://localhost:5000", {
+    socketRef.current = io(`${API_BASE}`, {
       auth: { token },
     });
 
