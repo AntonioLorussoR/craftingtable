@@ -18,16 +18,14 @@ export default function TeamPage({
   const [team, setTeam] = useState(selectedTeam); // stato locale
   const token = propToken || localStorage.getItem("token");
 
-  // 🔁 aggiorna lo stato locale quando cambia il team selezionato
   useEffect(() => {
     setTeam(selectedTeam);
   }, [selectedTeam]);
 
-  //ascolta evento telegramLinked via Socket.IO
   useEffect(() => {
     if (!team?._id) return;
 
-    socket.emit("joinTeam", team._id); // entra nella stanza del team
+    socket.emit("joinTeam", team._id); 
 
     const handleTelegramLinked = ({ chatId, title }) => {
       setTeam((prev) => ({
