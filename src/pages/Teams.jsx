@@ -8,11 +8,13 @@ export default function Teams({ token }) {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
   const fetchTeams = async () => {
     if (!token) return;
 
     try {
-      const res = await fetch("http://localhost:5000/api/teams", {
+      const res = await fetch(`${API_BASE}/api/teams`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
