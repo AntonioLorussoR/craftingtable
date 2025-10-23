@@ -9,7 +9,7 @@ export default function SidebarTeamList({ teams, onSelectTeam, onCreateTeam, fet
   
   const handleJoinTeam = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (!token) return;
 
     try {
