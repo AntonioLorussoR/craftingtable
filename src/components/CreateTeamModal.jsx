@@ -6,6 +6,9 @@ export default function CreateTeamModal({ isOpen, onClose, onCreate, token }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
+
   const handleSubmit = async () => {
     if (!teamName.trim()) {
       setError("Inserisci un nome valido");
@@ -16,7 +19,7 @@ export default function CreateTeamModal({ isOpen, onClose, onCreate, token }) {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/teams", {
+      const res = await fetch(`${API_BASE}/api/teams`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,7 +29,7 @@ export default function CreateTeamModal({ isOpen, onClose, onCreate, token }) {
       });
 
       const data = await res.json();
-      console.log("📦 Team ricevuto dal backend:", JSON.stringify(data, null, 2));
+      console.log("Team ricevuto dal backend:", JSON.stringify(data, null, 2));
 
       if (res.ok) {
         onCreate();
