@@ -7,16 +7,16 @@ export default function Materiale({ team, token }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // 🔐 Decodifica il token per ottenere l'ID utente
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
   let currentUserId = null;
   try {
     const decoded = jwtDecode(token);
     currentUserId = decoded._id || decoded.id || decoded.userId || decoded.sub;
   } catch (err) {
-    console.warn("⚠️ Token non valido:", err);
+    console.warn("Token non valido:", err);
   }
 
-  // 🛡️ Verifica se l'utente è admin
   const isAdmin = team?.members?.some(
     (m) => String(m.user?._id || m.user) === String(currentUserId) && (m.role === "Admin" || m.role === "Creator")
   );
@@ -24,7 +24,7 @@ export default function Materiale({ team, token }) {
   useEffect(() => {
     const fetchMaterials = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/teams/${team._id}/materials`, {
+        const res = await fetch(`${API_BASE}/api/teams/${team._id}/materials`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -49,7 +49,7 @@ export default function Materiale({ team, token }) {
     formData.append("file", file);
 
     try {
-      const res = await fetch(`http://localhost:5000/api/teams/${team._id}/materials`, {
+      const res = await fetch(`${API_BASE}/api/teams/${team._id}/materials`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
@@ -71,7 +71,7 @@ export default function Materiale({ team, token }) {
 
   const deleteMaterial = async (materialId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/materials/${materialId}`, {
+      const res = await fetch(`${API_BASE}/api/materials/${materialId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -118,7 +118,7 @@ export default function Materiale({ team, token }) {
             </div>
             <div className="flex gap-2">
               <a
-                href={`http://localhost:5000/uploads/contentShared/${item.url.split("/").pop()}`}
+                href={`${API_BASE}/`uploads/contentShared/${item.url.split("/").pop()}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700"
