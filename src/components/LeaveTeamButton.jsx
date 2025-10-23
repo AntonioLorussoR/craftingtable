@@ -5,12 +5,14 @@ export default function LeaveTeamButton({ teamId, token, onLeave }) {
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState("");
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+  
   const handleLeave = async () => {
   setLoading(true);
   setError("");
 
   try {
-    const res = await fetch(`http://localhost:5000/api/teams/${teamId}/leave`, {
+    const res = await fetch(`${API_BASE}/api/teams/${teamId}/leave`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -18,7 +20,7 @@ export default function LeaveTeamButton({ teamId, token, onLeave }) {
     });
 
     if (res.ok) {
-      onLeave(); // ✅ aggiorna lo stato locale
+      onLeave(); 
     } else {
       const data = await res.json().catch(() => ({}));
       setError(data.message || "Errore durante l'abbandono del team");
