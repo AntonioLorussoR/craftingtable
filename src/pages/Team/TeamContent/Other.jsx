@@ -6,12 +6,14 @@ export default function Other({ team, token }) {
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+  
   let currentUserId = null;
   try {
     const decoded = jwtDecode(token);
     currentUserId = decoded._id || decoded.id || decoded.userId || decoded.sub;
   } catch (err) {
-    console.warn("⚠️ Token non valido:", err);
+    console.warn("Token non valido:", err);
   }
 
   const isAdmin = team?.members?.some(
@@ -24,7 +26,7 @@ export default function Other({ team, token }) {
     if (!inviteLink.trim()) return;
     setSaving(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/teams/${team._id}/telegram-invite`, {
+      const res = await fetch(`${API_BASE}/api/teams/${team._id}/telegram-invite`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -34,7 +36,7 @@ export default function Other({ team, token }) {
       });
       if (!res.ok) throw new Error("Errore salvataggio link");
     } catch (err) {
-      console.error("❌ Errore salvataggio link:", err);
+      console.error("Errore salvataggio link:", err);
     } finally {
       setSaving(false);
     }
@@ -52,7 +54,7 @@ export default function Other({ team, token }) {
 
       {team?.telegramChatTitle && (
         <div className="text-gray-700">
-          ✅ Gruppo Telegram accoppiato: <strong>{team.telegramChatTitle}</strong>
+          Gruppo Telegram accoppiato: <strong>{team.telegramChatTitle}</strong>
         </div>
       )}
 
@@ -99,7 +101,7 @@ export default function Other({ team, token }) {
               onClick={handleCopy}
               className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
             >
-              {copied ? "✅ Copiato!" : "Copia"}
+              {copied ? "Copiato!" : "Copia"}
             </button>
           </div>
         </div>
