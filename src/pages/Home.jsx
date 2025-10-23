@@ -10,18 +10,19 @@ export default function Home() {
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
   
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  if (!token) return;
 
-    fetch(`${API_BASE_URL}/api/users/me`, {
-      headers: { Authorization: `Bearer ${token}` },
+  fetch(`${API_BASE}/api/users/me`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data && data.nomeUtente) setUser(data);
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && data.nomeUtente) setUser(data);
-      })
-      .catch(() => setError("Errore nel recupero dell'utente"));
-  }, []);
+    .catch(() => setError("Errore nel recupero dell'utente"));
+}, []);
+
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-indigo-600 to-purple-700 text-white p-6">
