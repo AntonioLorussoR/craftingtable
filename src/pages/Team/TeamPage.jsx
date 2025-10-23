@@ -16,7 +16,7 @@ export default function TeamPage({
 }) {
   const [activeTab, setActiveTab] = useState("bacheca");
   const [team, setTeam] = useState(selectedTeam); // stato locale
-  const token = propToken || localStorage.getItem("token");
+  const token = propToken || (typeof window !== "undefined" ? localStorage.getItem("token") : null);
 
   useEffect(() => {
     setTeam(selectedTeam);
