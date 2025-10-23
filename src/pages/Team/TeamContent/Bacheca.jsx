@@ -9,11 +9,13 @@ export default function Bacheca({ team, token }) {
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
   let currentUserId = null;
-  try {
-    const decoded = jwtDecode(token);
-    currentUserId = decoded._id || decoded.id || decoded.userId || decoded.sub;
-  } catch (err) {
-    console.warn("Token non valido:", err);
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      currentUserId = decoded._id || decoded.id || decoded.userId || decoded.sub;
+    } catch (err) {
+      console.warn("Token non valido:", err);
+    }
   }
 
   const isAdmin = team?.members?.some(
