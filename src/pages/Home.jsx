@@ -11,7 +11,7 @@ export default function Home() {
     const token = localStorage.getItem("token");
     if (!token) return;
 
-    fetch("http://localhost:5000/api/users/me", {
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/users/me`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
