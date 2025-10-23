@@ -1,9 +1,11 @@
 import Button from '@mui/material/Button';
 import GoogleIcon from '@mui/icons-material/Google';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
 export default function GoogleSignInButton() {
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5000/api/auth/google";
+    window.location.href = `${API_BASE}/api/auth/google`;
   };
 
   return (
