@@ -9,8 +9,9 @@ export default function Dashboard({ token }) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        const storedToken = typeof window !== "undefined" ? localStorage.getItem("token") : null;
         const res = await fetch(`${API_BASE}/api/users/me`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: { Authorization: storedToken ? `Bearer ${storedToken}` : "" },
         });
         const data = await res.json();
         if (res.ok) {
