@@ -3,15 +3,17 @@ import { useState } from "react";
 export default function SidebarTeamList({ teams, onSelectTeam, onCreateTeam, fetchTeams }) {
   const [accessCode, setAccessCode] = useState("");
   const [error, setError] = useState("");
-  const [selectedTeamId, setSelectedTeamId] = useState(null); // ✅ stato per il team selezionato
+  const [selectedTeamId, setSelectedTeamId] = useState(null); 
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+  
   const handleJoinTeam = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
     if (!token) return;
 
     try {
-      const res = await fetch("http://localhost:5000/api/teams/join", {
+      const res = await fetch(`${API_BASE}/api/teams/join`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,7 +37,7 @@ export default function SidebarTeamList({ teams, onSelectTeam, onCreateTeam, fet
   };
 
   const handleSelectTeam = (team) => {
-    setSelectedTeamId(team._id); // ✅ aggiorna il team selezionato
+    setSelectedTeamId(team._id); 
     onSelectTeam(team);
   };
 
