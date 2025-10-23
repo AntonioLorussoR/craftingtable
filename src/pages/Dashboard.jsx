@@ -4,10 +4,12 @@ export default function Dashboard({ token }) {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+  
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/users/me`, {
+        const res = await fetch(`${API_BASE}/api/users/me`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         const data = await res.json();
