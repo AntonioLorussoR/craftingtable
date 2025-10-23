@@ -7,11 +7,13 @@ export default function Home() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
 
-    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/users/me`, {
+    fetch(`${API_BASE_URL}/api/users/me`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
