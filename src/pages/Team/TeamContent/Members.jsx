@@ -2,11 +2,12 @@ import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import ConfermaRimozione from "../../../components/ConfermaRimozione";
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
 export default function Members({ team, token, onTeamsUpdate }) {
   const [showModal, setShowModal] = useState(false);
   const [membroSelezionato, setMembroSelezionato] = useState(null);
 
-  // Decodifica il token per ottenere l'ID utente
   let currentUserId = null;
   try {
     const decoded = jwtDecode(token);
@@ -15,7 +16,6 @@ export default function Members({ team, token, onTeamsUpdate }) {
     console.warn("Token non valido:", err);
   }
 
-  // Verifica se l'utente corrente è admin o creatore
   const isAdmin = team?.members?.some(
     (m) =>
       String(m.user?._id || m.user) === String(currentUserId) &&
@@ -24,7 +24,7 @@ export default function Members({ team, token, onTeamsUpdate }) {
 
   const makeAdmin = async (memberId) => {
     try {
-      const res = await fetch(`/api/teams/${team._id}/admin/${memberId}`, {
+      const res = await fetch(`${API_BASE}/api/teams/${team._id}/admin/${memberId}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -44,7 +44,7 @@ export default function Members({ team, token, onTeamsUpdate }) {
   const confermaRimozione = async () => {
     try {
       const memberId = membroSelezionato.user?._id || membroSelezionato.user;
-      const res = await fetch(`/api/teams/${team._id}/members/${memberId}`, {
+      const res = await fetch(`${API_BASE}/api/teams/${team._id}/members/${memberId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
