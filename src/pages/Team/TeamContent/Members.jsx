@@ -9,12 +9,15 @@ export default function Members({ team, token, onTeamsUpdate }) {
   const [membroSelezionato, setMembroSelezionato] = useState(null);
 
   let currentUserId = null;
-  try {
-    const decoded = jwtDecode(token);
-    currentUserId = decoded._id || decoded.id || decoded.userId || decoded.sub;
-  } catch (err) {
-    console.warn("Token non valido:", err);
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      currentUserId = decoded._id || decoded.id || decoded.userId || decoded.sub;
+    } catch (err) {
+      console.warn("Token non valido:", err);
+    }
   }
+
 
   const isAdmin = team?.members?.some(
     (m) =>
