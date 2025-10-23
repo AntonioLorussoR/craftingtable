@@ -8,14 +8,17 @@ export default function Materiale({ team, token }) {
   const [error, setError] = useState("");
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
-
+  
   let currentUserId = null;
-  try {
-    const decoded = jwtDecode(token);
-    currentUserId = decoded._id || decoded.id || decoded.userId || decoded.sub;
-  } catch (err) {
-    console.warn("Token non valido:", err);
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      currentUserId = decoded._id || decoded.id || decoded.userId || decoded.sub;
+    } catch (err) {
+      console.warn("Token non valido:", err);
+    }
   }
+
 
   const isAdmin = team?.members?.some(
     (m) => String(m.user?._id || m.user) === String(currentUserId) && (m.role === "Admin" || m.role === "Creator")
@@ -118,7 +121,7 @@ export default function Materiale({ team, token }) {
             </div>
             <div className="flex gap-2">
               <a
-                href={`${API_BASE}/`uploads/contentShared/${item.url.split("/").pop()}`}
+                href={`${API_BASE}/uploads/contentShared/${item.url.split("/").pop()}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700"
