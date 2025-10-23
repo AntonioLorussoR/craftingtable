@@ -8,21 +8,23 @@ export default function Description({ team, token, onUpdate, onDelete }) {
   const [message, setMessage] = useState("");
   const [deleteError, setDeleteError] = useState("");
 
-  // 🔐 Decodifica il token per ottenere l'ID utente
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
+  
   let currentUserId = null;
   try {
     const decoded = jwtDecode(token);
     currentUserId = decoded._id || decoded.id || decoded.userId || decoded.sub;
   } catch (err) {
-    console.warn("⚠️ Token non valido:", err);
+    console.warn("Token non valido:", err);
   }
 
-  // 🛡️ Confronto sicuro tra stringhe per riconoscere l'admin
+
   const isAdmin = team?.members?.some(
     (m) => String(m.user?._id || m.user) === String(currentUserId) && (m.role === "Admin" || m.role === "Creator")
   );
 
-  //Riconoscere il Creator
+
   const isCreator = team?.members?.some(
     (m) => String(m.user?._id || m.user) === String(currentUserId) && (m.role === "Creator")
   );
@@ -31,7 +33,7 @@ export default function Description({ team, token, onUpdate, onDelete }) {
     setSaving(true);
     setMessage("");
     try {
-      const res = await fetch(`/api/teams/${team._id}/description`, {
+      const res = await fetch(`${API_BASE}/api/teams/${team._id}/description`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -42,15 +44,15 @@ export default function Description({ team, token, onUpdate, onDelete }) {
 
       const data = await res.json();
       if (!res.ok) {
-        setMessage(`❌ Errore: ${data.message}`);
+        setMessage(`Errore: ${data.message}`);
       } else {
         setSavedDesc(desc);
         if (onUpdate) onUpdate(desc);
-        setMessage("✅ Descrizione salvata con successo!");
+        setMessage("Descrizione salvata con successo!");
       }
     } catch (err) {
       console.error(err);
-      setMessage("❌ Errore di rete");
+      setMessage("Errore di rete");
     } finally {
       setSaving(false);
     }
@@ -61,7 +63,7 @@ export default function Description({ team, token, onUpdate, onDelete }) {
     if (!conferma) return;
 
     try {
-      const res = await fetch(`/api/teams/${team._id}`, {
+      const res = await fetch(`${API_BASE}/api/teams/${team._id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -69,7 +71,7 @@ export default function Description({ team, token, onUpdate, onDelete }) {
       });
 
       if (res.ok) {
-        if (onDelete) onDelete(); // ✅ aggiorna stato locale nel genitore
+        if (onDelete) onDelete(); 
       } else {
         const data = await res.json();
         setDeleteError(data.message || "Errore durante l'eliminazione del team");
