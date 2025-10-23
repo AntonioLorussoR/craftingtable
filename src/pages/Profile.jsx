@@ -16,7 +16,7 @@ export default function Profile() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (!token) {
       setMessage("Token mancante. Effettua il login.");
       return;
@@ -38,7 +38,7 @@ export default function Profile() {
         setFormData({
           firstName: data.nomeUtente || "",
           lastName: data.cognomeUtente || "",
-          email : data.email || "",
+          email: data.email || "",
           address: data.address || "",
           cap: data.cap || "",
           city: data.city || "",
@@ -55,7 +55,7 @@ export default function Profile() {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
     try {
       const res = await fetch(`${API_BASE}/api/users/me`, {
@@ -81,7 +81,7 @@ export default function Profile() {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     const formDataObj = new FormData();
     formDataObj.append("profilePicture", profilePicture);
 
@@ -105,7 +105,7 @@ export default function Profile() {
   };
 
   const handleRemovePicture = async () => {
-    const token = localStorage.getItem("token");
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
     try {
       const res = await fetch(`${API_BASE}/api/users/me/profile-picture`, {
@@ -125,7 +125,7 @@ export default function Profile() {
   };
 
   const handleDeleteAccount = async () => {
-    const token = localStorage.getItem("token");
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     const conferma = window.confirm("Vuoi davvero eliminare il tuo account? Questa azione è irreversibile.");
     if (!conferma) return;
 
