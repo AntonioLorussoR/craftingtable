@@ -35,32 +35,32 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4 py-6 sm:px-6 md:px-8">
       <h2 className="text-3xl font-bold mb-6">Accedi</h2>
       <form
         onSubmit={handleSubmit}
-        className="w-80 bg-white p-6 rounded-xl shadow-lg flex flex-col gap-4"
+        className="w-full max-w-sm bg-white p-6 rounded-xl shadow-lg flex flex-col gap-4"
       >
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm sm:text-base"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm sm:text-base"
         />
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        <button className="bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition">
+        <button className="bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition text-sm sm:text-base">
           Login
         </button>
       </form>
-      <p className="mt-4 text-sm">
+      <p className="mt-4 text-sm text-center px-2">
         Non hai un account?{" "}
         <span
           onClick={() => navigate("/register")}
