@@ -50,33 +50,33 @@ export default function CreateTeamModal({ isOpen, onClose, onCreate, token }) {
 
   return (
     <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded shadow-md w-96">
+      <div className="bg-white p-6 rounded shadow-md w-full max-w-md mx-4 sm:mx-0">
         <h2 className="text-lg font-semibold mb-4">Crea un nuovo team</h2>
         <input
           type="text"
           value={teamName}
           onChange={(e) => setTeamName(e.target.value)}
           placeholder="Nome del team"
-          className="w-full px-3 py-2 border rounded mb-2"
+          className="w-full px-3 py-2 border rounded text-sm sm:text-base"
         />
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Descrizione (facoltativa)"
-          className="w-full px-3 py-2 border rounded mb-2"
+          className="w-full px-3 py-2 border rounded text-sm sm:text-base"
         />
         {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
-        <div className="flex justify-end gap-2">
+        <div className="flex flex-col sm:flex-row justify-end gap-2 mt-2">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-300 rounded"
+            className="px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto"
             disabled={loading}
           >
             Annulla
           </button>
           <button
             onClick={handleSubmit}
-            className="px-4 py-2 bg-blue-600 text-white rounded"
+            className="px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto"
             disabled={loading}
           >
             {loading ? "Creazione..." : "Crea"}
