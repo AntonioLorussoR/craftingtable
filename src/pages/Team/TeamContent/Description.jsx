@@ -85,7 +85,7 @@ if (token) {
   };
 
   return (
-    <div className="p-4 border rounded">
+    <div className="p-4 border rounded w-full max-w-screen-md mx-auto">
       <h3 className="text-xl font-semibold mb-2">Descrizione del Team</h3>
       <p className="mb-2">
         Codice accesso: <strong>{team.accessCode}</strong>
@@ -94,22 +94,22 @@ if (token) {
         value={desc}
         onChange={(e) => setDesc(e.target.value)}
         disabled={!isAdmin}
-        className="border p-2 w-full rounded"
+        className="border p-2 w-full rounded text-sm sm:text-base"
       />
 
       {(isAdmin || isCreator) && (
-        <div className="mt-4 flex justify-between items-center">
+        <div className="mt-4 flex flex-col sm:flex-row gap-2 sm:justify-between items-center">
           <button
             onClick={updateDescription}
             disabled={saving || desc === savedDesc}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50">
+            className="px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto">
             {saving ? "Salvataggio..." : "Salva"}
           </button>
 
           {isCreator && (
             <button
               onClick={handleDeleteTeam}
-              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">
+              className="px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto">
               Elimina team
             </button>
         )}
