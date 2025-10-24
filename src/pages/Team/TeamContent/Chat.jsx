@@ -58,16 +58,16 @@ export default function Chat({ team, token, currentUserId }) {
   };
 
   return (
-    <div className="flex flex-col h-full border rounded p-2">
+    <div className="flex flex-col h-full border rounded p-2 w-full max-w-screen-md mx-auto">
       <h3 className="text-xl font-semibold mb-2">Chat del Team</h3>
-      <div className="flex-1 overflow-y-auto mb-2">
+      <div className="flex-1 overflow-y-auto mb-2 space-y-2">
         {messages.map((msg, i) => (
           <div
             key={i}
-            className={`mb-2 p-2 rounded ${
+            className={`p-2 rounded text-sm sm:text-base ${
               msg.author?._id === currentUserId
-                ? "bg-blue-100 text-right"
-                : "bg-gray-100 text-left"
+              ? "bg-blue-100 text-right"
+              : "bg-gray-100 text-left"
             }`}
           >
             <div>
@@ -94,18 +94,18 @@ export default function Chat({ team, token, currentUserId }) {
         ))}
         <div ref={messagesEndRef}></div>
       </div>
-      <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row gap-2">
         <input
           type="text"
           placeholder="Scrivi un messaggio..."
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           onKeyDown={handleKeyPress}
-          className="flex-grow border rounded p-2"
+          className="border rounded p-2 text-sm sm:text-base w-full"
         />
         <button
           onClick={sendMessage}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm sm:text-base w-full sm:w-auto"
         >
           Invia
         </button>
