@@ -51,8 +51,8 @@ export default function Other({ team, token }) {
   };
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold">🔗 Collegamento Telegram</h2>
+    <div className="space-y-6 w-full max-w-screen-md mx-auto px-4">
+      <h2 className="text-xl font-semibold text-center sm:text-left">🔗 Collegamento Telegram</h2>
 
       {team?.telegramChatTitle && (
         <div className="text-gray-700">
@@ -77,20 +77,20 @@ export default function Other({ team, token }) {
               type="text"
               value={inviteLink}
               onChange={(e) => setInviteLink(e.target.value)}
-              className="w-full border rounded p-2"
+              className="w-full border rounded p-2 text-sm sm:text-base"
               placeholder="https://t.me/joinchat/..."
             />
             <button
               onClick={handleSaveLink}
               disabled={saving}
-              className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+              className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 text-sm sm:text-base w-full sm:w-auto"
             >
               {saving ? "Salvataggio..." : "Salva link"}
             </button>
           </div>
         </div>
       ) : (
-        <div className="space-y-2">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
           <p className="text-gray-700">Puoi entrare nel gruppo Telegram tramite questo link:</p>
           <div className="flex items-center space-x-2">
             <input
@@ -101,7 +101,7 @@ export default function Other({ team, token }) {
             />
             <button
               onClick={handleCopy}
-              className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+              className="bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700 text-sm sm:text-base w-full sm:w-auto"
             >
               {copied ? "Copiato!" : "Copia"}
             </button>
