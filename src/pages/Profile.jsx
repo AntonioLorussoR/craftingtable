@@ -149,33 +149,33 @@ export default function Profile() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow rounded mt-6">
+    <div className="max-w-screen-md w-full mx-auto px-4 py-6 sm:px-6 md:px-8 bg-white shadow rounded mt-6">
       <h2 className="text-2xl font-bold mb-4">Profilo Utente</h2>
 
       {user ? (
         <div className="flex flex-col gap-4">
           {/* Foto profilo */}
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
             <img
               src={user.profilePicture || "https://placehold.co/100x100"}
               alt="Profile"
-              className="w-24 h-24 rounded-full object-cover border"
+              className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full object-cover border"
             />
             <div>
               <input
                 type="file"
                 onChange={(e) => setProfilePicture(e.target.files[0])}
-                className="block mb-2"
+                className="border p-2 rounded text-sm sm:text-base"
               />
               <button
                 onClick={handleUpload}
-                className="bg-blue-500 text-white px-3 py-1 rounded mr-2"
+                className="bg-green-500 text-white px-4 py-2 rounded text-sm sm:text-base hover:bg-green-600 transition"
               >
                 Carica foto
               </button>
               <button
                 onClick={handleRemovePicture}
-                className="bg-red-500 text-white px-3 py-1 rounded"
+                className="bg-red-600 text-white px-4 py-2 rounded mt-4 hover:bg-red-700 text-sm sm:text-base transition"
               >
                 Rimuovi foto
               </button>
@@ -190,7 +190,7 @@ export default function Profile() {
               placeholder="Nome"
               value={formData.firstName}
               onChange={handleChange}
-              className="border p-2 rounded"
+              className="border p-2 rounded text-sm sm:text-base w-full"
               readOnly
             />
             <input
@@ -199,7 +199,7 @@ export default function Profile() {
               placeholder="Cognome"
               value={formData.lastName}
               onChange={handleChange}
-              className="border p-2 rounded"
+              className="border p-2 rounded text-sm sm:text-base w-full"
               readOnly
             />
             <input
@@ -208,7 +208,7 @@ export default function Profile() {
               placeholder="Email"
               value={formData.email}
               onChange={handleChange}
-              className="border p-2 rounded"
+              className="border p-2 rounded text-sm sm:text-base w-full"
               readOnly
             />
             <input
@@ -217,7 +217,7 @@ export default function Profile() {
               placeholder="Indirizzo"
               value={formData.address}
               onChange={handleChange}
-              className="border p-2 rounded"
+              className="border p-2 rounded text-sm sm:text-base w-full"
             />
             <input
               type="text"
@@ -225,7 +225,7 @@ export default function Profile() {
               placeholder="CAP"
               value={formData.cap}
               onChange={handleChange}
-              className="border p-2 rounded"
+              className="border p-2 rounded text-sm sm:text-base w-full"
             />
             <input
               type="text"
@@ -233,7 +233,7 @@ export default function Profile() {
               placeholder="Città"
               value={formData.city}
               onChange={handleChange}
-              className="border p-2 rounded"
+              className="border p-2 rounded text-sm sm:text-base w-full"
             />
 
             <button
