@@ -1,13 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 
 export default function Other({ team, token }) {
-  const [inviteLink, setInviteLink] = useState(team?.telegramInviteLink || "");
+  const [inviteLink, setInviteLink] = useState("");
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [saveMessage, setSaveMessage] = useState("");
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
-  
+
+  useEffect(() => {
+    if (team?.telegramInviteLink) {
+      setInviteLink(team.telegramInviteLink);
+    }
+  }, [team]);
+
+  if (!team) return null;
+
   let currentUserId = null;
   if (token) {
     try {
@@ -27,6 +36,7 @@ export default function Other({ team, token }) {
   const handleSaveLink = async () => {
     if (!inviteLink.trim()) return;
     setSaving(true);
+    setSaveMessage("");
     try {
       const res = await fetch(`${API_BASE}/api/teams/${team._id}/telegram-invite`, {
         method: "PUT",
@@ -37,17 +47,24 @@ export default function Other({ team, token }) {
         body: JSON.stringify({ link: inviteLink }),
       });
       if (!res.ok) throw new Error("Errore salvataggio link");
+      setSaveMessage("Link salvato correttamente!");
     } catch (err) {
       console.error("Errore salvataggio link:", err);
+      setSaveMessage("Errore durante il salvataggio.");
     } finally {
       setSaving(false);
     }
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(inviteLink);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (!navigator.clipboard) {
+      console.warn("Clipboard non supportata");
+      return;
+    }
+    navigator.clipboard.writeText(inviteLink).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
   };
 
   return (
@@ -55,14 +72,14 @@ export default function Other({ team, token }) {
       <h2 className="text-xl font-semibold text-center sm:text-left">🔗 Collegamento Telegram</h2>
 
       {team?.telegramChatTitle && (
-        <div className="text-gray-700">
+        <div className="text-gray-700 text-sm sm:text-base">
           Gruppo Telegram accoppiato: <strong>{team.telegramChatTitle}</strong>
         </div>
       )}
 
       {isAdmin ? (
         <div className="space-y-4">
-          <p className="text-gray-700">
+          <p className="text-gray-700 text-sm sm:text-base">
             Per accoppiare il gruppo Telegram al team, invia questo comando nel gruppo:
           </p>
           <pre className="bg-gray-100 p-2 rounded border border-gray-300 text-sm">
@@ -87,17 +104,22 @@ export default function Other({ team, token }) {
             >
               {saving ? "Salvataggio..." : "Salva link"}
             </button>
+            {saveMessage && (
+              <p className="text-green-600 text-sm mt-1">{saveMessage}</p>
+            )}
           </div>
         </div>
       ) : (
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-          <p className="text-gray-700">Puoi entrare nel gruppo Telegram tramite questo link:</p>
-          <div className="flex items-center space-x-2">
+        <div className="space-y-2">
+          <p className="text-gray-700 text-sm sm:text-base">
+            Puoi entrare nel gruppo Telegram tramite questo link:
+          </p>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
             <input
               type="text"
               value={inviteLink}
               readOnly
-              className="w-full border rounded p-2 bg-gray-100 text-gray-700"
+              className="w-full border rounded p-2 bg-gray-100 text-gray-700 text-sm sm:text-base"
             />
             <button
               onClick={handleCopy}
