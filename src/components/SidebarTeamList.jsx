@@ -3,10 +3,10 @@ import { useState } from "react";
 export default function SidebarTeamList({ teams, onSelectTeam, onCreateTeam, fetchTeams }) {
   const [accessCode, setAccessCode] = useState("");
   const [error, setError] = useState("");
-  const [selectedTeamId, setSelectedTeamId] = useState(null); 
+  const [selectedTeamId, setSelectedTeamId] = useState(null);
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
-  
+
   const handleJoinTeam = async (e) => {
     e.preventDefault();
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -37,54 +37,62 @@ export default function SidebarTeamList({ teams, onSelectTeam, onCreateTeam, fet
   };
 
   const handleSelectTeam = (team) => {
-    setSelectedTeamId(team._id); 
+    setSelectedTeamId(team._id);
     onSelectTeam(team);
   };
 
   return (
     <div className="sidebar bg-white shadow-md p-4 w-full sm:w-64 min-h-screen flex flex-col justify-between">
-      <div>
-        <h3 className="font-semibold mb-2">I tuoi Team</h3>
-        {Array.isArray(teams) && teams.length > 0 ? (
-          <ul>
-            {teams.map((team) => (
-              <li key={team._id}>
-                <button
-                  onClick={() => handleSelectTeam(team)}
-                  className={`w-full text-left px-2 py-1 rounded transition text-sm sm:text-base ${
-                    selectedTeamId === team._id
-                    ? "bg-blue-100 border border-blue-600 font-semibold"
-                    : "hover:bg-gray-200"
-                  }`}
-                >
-                  {team.name || "Team senza nome"}
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <div className="text-gray-500 mt-4">
-            Nessun team disponibile.
-            <br />
-            Puoi crearne uno nuovo o unirti con un codice.
-          </div>
-        )}
+      <div className="space-y-6">
+        {/* Sezione accesso con codice */}
+        <div>
+          <h3 className="font-semibold mb-2">Accedi con codice</h3>
+          <form onSubmit={handleJoinTeam} className="border p-2 rounded text-sm sm:text-base w-full">
+            <input
+              type="text"
+              placeholder="Codice di accesso"
+              value={accessCode}
+              onChange={(e) => setAccessCode(e.target.value)}
+              className="border p-2 rounded w-full mb-2"
+            />
+            {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+            <button className="bg-green-600 text-white py-2 rounded hover:bg-green-700 transition text-sm sm:text-base w-full">
+              Unisciti al team
+            </button>
+          </form>
+        </div>
 
-        <form onSubmit={handleJoinTeam} className="border p-2 rounded text-sm sm:text-base w-full">
-          <input
-            type="text"
-            placeholder="Codice di accesso"
-            value={accessCode}
-            onChange={(e) => setAccessCode(e.target.value)}
-            className="border p-2 rounded"
-          />
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-          <button className="bg-green-600 text-white py-2 rounded hover:bg-green-700 transition text-sm sm:text-base w-full">
-            Unisciti al team
-          </button>
-        </form>
+        {/* Lista dei team */}
+        <div>
+          <h3 className="font-semibold mb-2">I tuoi Team</h3>
+          {Array.isArray(teams) && teams.length > 0 ? (
+            <ul className="space-y-1">
+              {teams.map((team) => (
+                <li key={team._id}>
+                  <button
+                    onClick={() => handleSelectTeam(team)}
+                    className={`w-full text-left px-2 py-1 rounded transition text-sm sm:text-base ${
+                      selectedTeamId === team._id
+                        ? "bg-blue-100 border border-blue-600 font-semibold"
+                        : "hover:bg-gray-200"
+                    }`}
+                  >
+                    {team.name || "Team senza nome"}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="text-gray-500 mt-2 text-sm">
+              Nessun team disponibile.
+              <br />
+              Puoi crearne uno nuovo o unirti con un codice.
+            </div>
+          )}
+        </div>
       </div>
 
+      {/* Bottone crea team */}
       <button
         onClick={onCreateTeam}
         className="mt-6 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition text-sm sm:text-base w-full"
