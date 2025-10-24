@@ -32,17 +32,17 @@ export default function Dashboard({ token }) {
   if (!user) return <div className="p-4">Caricamento utente...</div>;
 
   return (
-    <div className="p-6">
-      <div className="flex items-center gap-4 mb-6">
+    <div className="px-4 py-6 sm:px-6 md:px-8 max-w-screen-lg mx-auto">
+      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-6 text-center sm:text-left">
         <img
           src={user.profilePicture || "https://placehold.co/100x100"}
           alt="Foto profilo"
-          className="w-20 h-20 rounded-full object-cover border-2 border-gray-300"
+          className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full object-cover border-2 border-gray-300"
         />
-        <h1 className="text-3xl font-bold">Benvenuto, {user.nomeUtente} 👋</h1>
+        <h1 className="text-3xl font-bold">Benvenuto, {user.nomeUtente}</h1>
       </div>
 
-      <p className="text-lg text-gray-700">
+      <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
         Sei nella tua dashboard personale. Usa la barra di navigazione per accedere ai tuoi team o al tuo profilo.
       </p>
     </div>
