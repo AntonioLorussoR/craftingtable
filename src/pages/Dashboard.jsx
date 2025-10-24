@@ -1,32 +1,34 @@
 import { useEffect, useState } from "react";
 
-export default function Dashboard({ token }) {
+export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
-  
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const storedToken = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-        const res = await fetch(`${API_BASE}/api/users/me`, {
-          headers: { Authorization: storedToken ? `Bearer ${storedToken}` : "" },
-        });
-        const data = await res.json();
-        if (res.ok) {
-          setUser(data);
-        } else {
-          setError(data.message || "Errore nel recupero dell'utente");
-        }
-      } catch (err) {
-        setError("Errore di connessione");
-        console.error("Errore fetch user:", err);
-      }
-    };
 
+  const fetchUser = async () => {
+    try {
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      if (!token) return;
+
+      const res = await fetch(`${API_BASE}/api/users/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setUser(data);
+      } else {
+        setError(data.message || "Errore nel recupero dell'utente");
+      }
+    } catch (err) {
+      setError("Errore di connessione");
+      console.error("Errore fetch user:", err);
+    }
+  };
+
+  useEffect(() => {
     fetchUser();
-  }, [token]);
+  }, []);
 
   if (error) return <div className="p-4 text-red-600">{error}</div>;
   if (!user) return <div className="p-4">Caricamento utente...</div>;
