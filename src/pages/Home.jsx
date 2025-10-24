@@ -25,7 +25,7 @@ export default function Home() {
 
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-indigo-600 to-purple-700 text-white px-4 py-6 sm:px-6 md:px-8 max-w-screen-md mx-auto">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-indigo-600 to-purple-700 text-white px-4 py-6 sm:px-6 md:px-8">
       <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-center">Crafting Table</h1>
 
       {user ? (
