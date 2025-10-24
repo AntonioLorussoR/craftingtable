@@ -24,46 +24,49 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-indigo-600 to-purple-700 text-white p-6">
-      <h1 className="text-5xl font-bold mb-6">Crafting Table</h1>
+    <div className="min-h-screen bg-gradient-to-r from-indigo-600 to-purple-700 text-white flex items-center justify-center px-6 py-10">
+      <div className="w-full max-w-xl text-center">
+        <h1 className="text-5xl font-bold mb-6">Crafting Table</h1>
 
-      {user ? (
-        <>
-          <p className="text-lg mb-10 text-center max-w-xl">
-            Ciao <span className="font-semibold">{user.nomeUtente}</span>, sei pronto a collaborare con il tuo team?
-          </p>
-          <button
-            onClick={() => navigate("/dashboard")}
-            className="bg-white text-indigo-600 px-6 py-3 rounded-xl font-semibold shadow-lg hover:bg-gray-200 transition"
-          >
-            Vai alla Dashboard
-          </button>
-        </>
-      ) : (
-        <>
-          <p className="text-lg mb-10 text-center max-w-xl">
-            Collabora con il tuo team, gestisci progetti e condividi idee in un unico spazio.
-          </p>
-          <div className="flex gap-6">
+        {user ? (
+          <>
+            <p className="text-lg mb-10">
+              Ciao <span className="font-semibold">{user.nomeUtente}</span>, sei pronto a collaborare con il tuo team?
+            </p>
             <button
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/dashboard")}
               className="bg-white text-indigo-600 px-6 py-3 rounded-xl font-semibold shadow-lg hover:bg-gray-200 transition"
             >
-              Accedi
+              Vai alla Dashboard
             </button>
-            <button
-              onClick={() => navigate("/register")}
-              className="bg-transparent border border-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-indigo-600 transition"
-            >
-              Registrati
-            </button>
-          </div>
-          <div className="flex gap-6 p-3 border-white rounded-xl hover:bg-gray">< GoogleSignInButton/></div>
-          
-        </>
-      )}
+          </>
+        ) : (
+          <>
+            <p className="text-lg mb-10">
+              Collabora con il tuo team, gestisci progetti e condividi idee in un unico spazio.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+              <button
+                onClick={() => navigate("/login")}
+                className="bg-white text-indigo-600 px-6 py-3 rounded-xl font-semibold shadow-lg hover:bg-gray-200 transition w-full sm:w-auto"
+              >
+                Accedi
+              </button>
+              <button
+                onClick={() => navigate("/register")}
+                className="bg-transparent border border-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-indigo-600 transition w-full sm:w-auto"
+              >
+                Registrati
+              </button>
+            </div>
+            <div className="w-full flex justify-center">
+              <GoogleSignInButton />
+            </div>
+          </>
+        )}
 
-      {error && <p className="mt-6 text-red-300 text-sm">{error}</p>}
+        {error && <p className="mt-6 text-red-300 text-sm">{error}</p>}
+      </div>
     </div>
   );
 }
