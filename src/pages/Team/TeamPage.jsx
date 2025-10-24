@@ -44,14 +44,14 @@ export default function TeamPage({
 
   if (!team || !team._id) {
     return (
-      <div className="flex-1 p-4 flex items-center justify-center text-gray-500">
+      <div className="flex-1 p-4 flex items-center justify-center text-gray-500 text-center text-sm sm:text-base">
         Caricamento team...
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full min-h-screen overflow-hidden">
       <TeamNavbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -61,7 +61,7 @@ export default function TeamPage({
         setSelectedTeam={setSelectedTeam}
       />
 
-      <div className="p-4 flex-1 overflow-auto">
+      <div className="p-4 flex-1 overflow-auto max-w-screen-lg mx-auto w-full">
         {activeTab === "bacheca" && <Bacheca team={team} token={token} />}
         {activeTab === "members" && <Members team={team} token={token} onTeamsUpdate={setTeam} />}
         {activeTab === "description" && (
