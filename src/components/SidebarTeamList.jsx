@@ -42,7 +42,7 @@ export default function SidebarTeamList({ teams, onSelectTeam, onCreateTeam, fet
   };
 
   return (
-    <div className="sidebar bg-white shadow-md p-4 w-64 min-h-screen flex flex-col justify-between">
+    <div className="sidebar bg-white shadow-md p-4 w-full sm:w-64 min-h-screen flex flex-col justify-between">
       <div>
         <h3 className="font-semibold mb-2">I tuoi Team</h3>
         {Array.isArray(teams) && teams.length > 0 ? (
@@ -51,10 +51,10 @@ export default function SidebarTeamList({ teams, onSelectTeam, onCreateTeam, fet
               <li key={team._id}>
                 <button
                   onClick={() => handleSelectTeam(team)}
-                  className={`w-full text-left px-2 py-1 rounded transition ${
+                  className={`w-full text-left px-2 py-1 rounded transition text-sm sm:text-base ${
                     selectedTeamId === team._id
-                      ? "bg-blue-100 border border-blue-600 font-semibold"
-                      : "hover:bg-gray-200"
+                    ? "bg-blue-100 border border-blue-600 font-semibold"
+                    : "hover:bg-gray-200"
                   }`}
                 >
                   {team.name || "Team senza nome"}
@@ -70,7 +70,7 @@ export default function SidebarTeamList({ teams, onSelectTeam, onCreateTeam, fet
           </div>
         )}
 
-        <form onSubmit={handleJoinTeam} className="mt-6 flex flex-col gap-2">
+        <form onSubmit={handleJoinTeam} className="border p-2 rounded text-sm sm:text-base w-full">
           <input
             type="text"
             placeholder="Codice di accesso"
@@ -79,7 +79,7 @@ export default function SidebarTeamList({ teams, onSelectTeam, onCreateTeam, fet
             className="border p-2 rounded"
           />
           {error && <p className="text-red-500 text-sm">{error}</p>}
-          <button className="bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">
+          <button className="bg-green-600 text-white py-2 rounded hover:bg-green-700 transition text-sm sm:text-base w-full">
             Unisciti al team
           </button>
         </form>
@@ -87,7 +87,7 @@ export default function SidebarTeamList({ teams, onSelectTeam, onCreateTeam, fet
 
       <button
         onClick={onCreateTeam}
-        className="mt-6 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition w-full"
+        className="mt-6 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition text-sm sm:text-base w-full"
       >
         + Crea nuovo team
       </button>
