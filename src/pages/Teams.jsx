@@ -30,7 +30,7 @@ export default function Teams({ token }) {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       <SidebarTeamList
         teams={teams}
         onSelectTeam={setSelectedTeam}
@@ -46,7 +46,7 @@ export default function Teams({ token }) {
           setSelectedTeam={setSelectedTeam}
         />
       ) : (
-        <div className="flex-1 p-4">Seleziona un team dalla sidebar</div>
+        <div className="flex-1 p-4 overflow-y-auto">Seleziona un team dalla sidebar</div>
       )}
 
       <CreateTeamModal
