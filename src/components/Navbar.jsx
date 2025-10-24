@@ -35,15 +35,15 @@ export default function Navbar({ onLogout }) {
           </button>
 
           <div className="md:hidden">
-            <button onClick={() => setMenuOpen(!menuOpen)} className="focus:outline-none">
+            <button onClick={() => setMenuOpen(!menuOpen)} className="focus:outline-none" aria-label="Apri menu">
               ☰
             </button>
           </div>
         </div>
 
         {menuOpen && (
-          <div className="md:hidden flex flex-col gap-2 py-2">
-            <button onClick={() => navigate("/dashboard")} className="text-left px-2 py-1 hover:bg-blue-500 rounded">
+          <div className="md:hidden flex flex-col gap-2 py-4 border-t border-blue-500">
+            <button onClick={() => navigate("/dashboard")} className="text-left px-4 py-2 hover:bg-blue-500 rounded">
               Home
             </button>
             <button onClick={() => navigate("/profile")} className="text-left px-2 py-1 hover:bg-blue-500 rounded">
@@ -51,6 +51,12 @@ export default function Navbar({ onLogout }) {
             </button>
             <button onClick={() => navigate("/teams")} className="text-left px-2 py-1 hover:bg-blue-500 rounded">
               Teams
+            </button>
+            <button
+              onClick={onLogout}
+              className="text-left px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded mt-2"
+            >
+              Logout
             </button>
           </div>
         )}
