@@ -25,12 +25,12 @@ export default function Home() {
 
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-indigo-600 to-purple-700 text-white p-6">
-      <h1 className="text-5xl font-bold mb-6">Crafting Table</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-indigo-600 to-purple-700 text-white px-4 py-6 sm:px-6 md:px-8 max-w-screen-md mx-auto">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-center">Crafting Table</h1>
 
       {user ? (
         <>
-          <p className="text-lg mb-10 text-center max-w-xl">
+          <p className="text-base sm:text-lg mb-8 text-center leading-relaxed max-w-md">
             Ciao <span className="font-semibold">{user.nomeUtente}</span>, sei pronto a collaborare con il tuo team?
           </p>
           <button
@@ -42,10 +42,10 @@ export default function Home() {
         </>
       ) : (
         <>
-          <p className="text-lg mb-10 text-center max-w-xl">
+          <p className="text-base sm:text-lg mb-8 text-center leading-relaxed max-w-md">
             Collabora con il tuo team, gestisci progetti e condividi idee in un unico spazio.
           </p>
-          <div className="flex gap-6">
+          <div className="flex flex-col sm:flex-row gap-4 w-full max-w-sm justify-center items-center">
             <button
               onClick={() => navigate("/login")}
               className="bg-white text-indigo-600 px-6 py-3 rounded-xl font-semibold shadow-lg hover:bg-gray-200 transition"
@@ -59,12 +59,12 @@ export default function Home() {
               Registrati
             </button>
           </div>
-          <div className="flex gap-6 p-3 border-white rounded-xl hover:bg-gray">< GoogleSignInButton/></div>
+          <div className="mt-6 w-full max-w-sm">< GoogleSignInButton/></div>
           
         </>
       )}
 
-      {error && <p className="mt-6 text-red-300 text-sm">{error}</p>}
+      {error && <p className="mt-6 text-red-300 text-sm text-center">{error}</p>}
     </div>
   );
 }
