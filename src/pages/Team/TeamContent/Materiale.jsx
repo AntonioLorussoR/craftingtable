@@ -91,47 +91,47 @@ export default function Materiale({ team, token }) {
   };
 
   return (
-    <div className="space-y-6">
-      <h3 className="text-xl font-semibold">Materiale Condiviso</h3>
+    <div className="space-y-6 w-full max-w-screen-md mx-auto px-4">
+      <h3 className="text-xl font-semibold text-center sm:text-left">Materiale Condiviso</h3>
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
         <input
           type="file"
           onChange={(e) => setFile(e.target.files[0])}
-          className="border p-2 rounded bg-white"
+          className="border p-2 rounded bg-white text-sm sm:text-base w-full sm:w-auto"
         />
         <button
           onClick={uploadFile}
           disabled={loading || !file}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-blue-600 text-white px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto"
         >
           {loading ? "Caricamento..." : "Carica"}
         </button>
       </div>
-      {error && <p className="text-red-600 text-sm">{error}</p>}
+      {error && <p className="text-red-600 text-sm text-center sm:text-left">{error}</p>}
 
       <ul className="space-y-4">
         {materials.map((item) => (
-          <li key={item._id} className="bg-white p-4 rounded shadow flex justify-between items-center">
+          <li key={item._id} className="bg-white p-4 rounded shadow flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
             <div>
-              <p className="font-medium">{item.name}</p>
+              <p className="font-medium text-sm sm:text-base break-words">{item.name}</p>
               <p className="text-sm text-gray-500">
                 Caricato il {new Date(item.createdAt).toLocaleString()}
               </p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
               <a
                 href={`${API_BASE}/uploads/contentShared/${item.url.split("/").pop()}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                className="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm sm:text-base w-full sm:w-auto text-center"
               >
                 Apri
               </a>
               {isAdmin && (
                 <button
                   onClick={() => deleteMaterial(item._id)}
-                  className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                  className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-sm sm:text-base w-full sm:w-auto"
                 >
                   Elimina
                 </button>
