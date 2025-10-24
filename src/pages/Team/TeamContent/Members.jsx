@@ -64,7 +64,7 @@ export default function Members({ team, token, onTeamsUpdate }) {
 
   return (
     <div className="w-full max-w-screen-md mx-auto px-4 space-y-4">
-      <h3 className="text-xl font-semibold mb-2 text-center sm:text-left>Membri del Team</h3>
+      <h3 className="text-xl font-semibold mb-2 text-center sm:text-left">Membri del Team</h3>
       <ul>
         {team.members.map((member) => {
           const memberId = member.user?._id || member.user;
