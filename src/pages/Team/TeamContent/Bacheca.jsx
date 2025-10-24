@@ -84,18 +84,18 @@ export default function Bacheca({ team, token }) {
   if (loading) return <div>Caricamento bacheca...</div>;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-screen-md mx-auto px-4">
       {isAdmin && (
         <div className="bg-white p-4 rounded shadow space-y-2">
           <textarea
-            className="w-full border rounded p-2"
+            className="w-full border rounded p-2 text-sm sm:text-base"
             placeholder="Scrivi un nuovo post..."
             value={newPost}
             onChange={(e) => setNewPost(e.target.value)}
           />
           <button
             onClick={handleAddPost}
-            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 text-sm sm:text-base w-full sm:w-auto"
           >
             Pubblica
           </button>
@@ -103,10 +103,10 @@ export default function Bacheca({ team, token }) {
       )}
 
       {posts.length === 0 ? (
-        <div className="text-gray-500">Nessun post nella bacheca.</div>
+        <div className="text-gray-500 text-center text-sm sm:text-base">Nessun post nella bacheca.</div>
       ) : (
         posts.map((post) => (
-          <div key={post._id} className="bg-white p-4 rounded shadow relative">
+          <div key={post._id} className="bg-white p-4 rounded shadow relative text-sm sm:text-base">
             <div className="text-gray-800">{post.content}</div>
             <div className="text-sm text-gray-500 mt-1">
               Pubblicato da {post.author?.nomeUtente || "Sconosciuto"} il{" "}
@@ -115,7 +115,7 @@ export default function Bacheca({ team, token }) {
             {isAdmin && (
               <button
                 onClick={() => handleDeletePost(post._id)}
-                className="absolute top-2 right-2 text-red-600 hover:text-red-800 font-bold"
+                className="absolute top-2 right-2 text-red-600 hover:text-red-800 font-bold text-sm"
               >
                 X
               </button>
