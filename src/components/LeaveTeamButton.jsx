@@ -38,18 +38,18 @@ export default function LeaveTeamButton({ teamId, token, onLeave }) {
   return (
     <div className="flex flex-col items-end">
       {confirming ? (
-        <div className="flex gap-2 items-center">
+        <div className="flex flex-col sm:flex-row gap-2 items-center sm:items-start text-center sm:text-left">
           <span className="text-sm text-gray-700">Sei sicuro?</span>
           <button
             onClick={handleLeave}
             disabled={loading}
-            className="px-2 py-1 text-sm bg-red-600 text-white rounded"
+            className="px-4 py-2 text-sm sm:text-base w-full sm:w-auto"
           >
             {loading ? "Uscita..." : "Conferma"}
           </button>
           <button
             onClick={() => setConfirming(false)}
-            className="px-2 py-1 text-sm bg-gray-300 rounded"
+            className="px-4 py-2 text-sm sm:text-base w-full sm:w-auto"
           >
             Annulla
           </button>
@@ -57,13 +57,13 @@ export default function LeaveTeamButton({ teamId, token, onLeave }) {
       ) : (
         <button
           onClick={() => setConfirming(true)}
-          className="px-3 py-2 bg-red-500 text-white rounded text-sm"
+          className="px-4 py-2 text-sm sm:text-base w-full sm:w-auto"
         >
           Abbandona il team
         </button>
       )}
 
-      {error && <p className="text-sm text-red-600 mt-2">{error}</p>}
+      {error && <p className="text-sm text-red-600 mt-2 text-center sm:text-right">{error}</p>}
     </div>
   );
 }
