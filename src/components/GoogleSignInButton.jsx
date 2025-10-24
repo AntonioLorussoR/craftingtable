@@ -12,9 +12,10 @@ export default function GoogleSignInButton() {
     <Button
       onClick={handleGoogleLogin}
       variant="outlined"
+      fullWidth
       sx={{
         backgroundColor: 'white',
-        color: 'trasparent',
+        color: 'primary',
         textTransform: 'none',
         fontWeight: 500,
         padding: '8px 16px',
