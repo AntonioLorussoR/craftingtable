@@ -21,23 +21,23 @@ export default function ConfermaRimozione({ isOpen, onClose, onConfirm, membro }
 
   return (
     <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded shadow-md w-96">
+      <div className="bg-white p-6 rounded shadow-md w-full max-w-md mx-4 sm:mx-0">
         <h2 className="text-lg font-semibold mb-4">Conferma rimozione</h2>
         <p className="mb-4 text-gray-700">
           Vuoi davvero rimuovere <strong>{membro.user.nomeUtente}</strong> dal team?
         </p>
         {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
-        <div className="flex justify-end gap-2">
+        <div className="flex flex-col sm:flex-row justify-end gap-2">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-300 rounded"
+            className="px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto"
             disabled={loading}
           >
             Annulla
           </button>
           <button
             onClick={handleConfirm}
-            className="px-4 py-2 bg-red-600 text-white rounded"
+            className="px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto"
             disabled={loading}
           >
             {loading ? "Rimozione..." : "Rimuovi"}
