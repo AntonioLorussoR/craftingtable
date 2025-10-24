@@ -38,7 +38,6 @@ export default function TeamNavbar({
 
       <LeaveTeamButton
         teamId={team._id}
-        className="px-4 py-2 text-sm sm:text-base w-full sm:w-auto"
         token={token}
         onLeave={() => {
           setTeams((prev) => prev.filter((t) => t._id !== team._id));
