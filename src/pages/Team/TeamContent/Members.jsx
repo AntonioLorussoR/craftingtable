@@ -92,14 +92,14 @@ export default function Members({ team, token, onTeamsUpdate }) {
                   {!isMemberAdmin && !isMemberCreator && (
                     <button
                       onClick={() => makeAdmin(memberId)}
-                      className="px-3 py-1 rounded text-sm sm:text-base w-full sm:w-auto"
+                      className="bg-blue-600 text-white px-3 py-1 rounded text-sm sm:text-base w-full sm:w-auto"
                     >
                       Nomina Admin
                     </button>
                   )}
                   <button
                     onClick={() => handleRimozioneClick(member)}
-                    className="px-3 py-1 rounded text-sm sm:text-base w-full sm:w-auto"
+                    className="bg-red-600 text-white px-3 py-1 rounded text-sm sm:text-base w-full sm:w-auto"
                   >
                     Rimuovi
                   </button>
