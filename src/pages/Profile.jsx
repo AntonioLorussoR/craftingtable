@@ -15,25 +15,16 @@ export default function Profile() {
   const [profilePicture, setProfilePicture] = useState(null);
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-    if (!token) {
-      setMessage("Token mancante. Effettua il login.");
-      return;
-    }
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-    fetch(`${API_BASE}/api/users/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then(async (res) => {
-        if (!res.ok) {
-          const text = await res.text();
-          console.error("Risposta non valida:", text);
-          throw new Error("Errore nel caricamento profilo");
-        }
-        return res.json();
-      })
-      .then((data) => {
+  const refreshUser = async () => {
+    if (!token) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/users/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (res.ok) {
         setUser(data);
         setFormData({
           firstName: data.nomeUtente || "",
@@ -43,11 +34,19 @@ export default function Profile() {
           cap: data.cap || "",
           city: data.city || "",
         });
-      })
-      .catch((err) => {
-        console.error(err);
-        setMessage("Errore nel caricamento profilo");
-      });
+      }
+    } catch (err) {
+      console.error("Errore aggiornamento utente:", err);
+      setMessage("Errore nel caricamento profilo");
+    }
+  };
+
+  useEffect(() => {
+    if (!token) {
+      setMessage("Token mancante. Effettua il login.");
+      return;
+    }
+    refreshUser();
   }, []);
 
   const handleChange = (e) =>
@@ -55,8 +54,6 @@ export default function Profile() {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-
     try {
       const res = await fetch(`${API_BASE}/api/users/me`, {
         method: "PUT",
@@ -69,7 +66,7 @@ export default function Profile() {
 
       const updated = await res.json();
       if (res.ok) {
-        setUser((prev) => ({ ...prev, ...updated }));
+        await refreshUser();
         setMessage("✅ Profilo aggiornato con successo");
       } else {
         setMessage(updated.message || "Errore durante l'aggiornamento");
@@ -81,7 +78,6 @@ export default function Profile() {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     const formDataObj = new FormData();
     formDataObj.append("profilePicture", profilePicture);
 
@@ -94,7 +90,7 @@ export default function Profile() {
 
       const updated = await res.json();
       if (res.ok) {
-        setUser((prev) => ({ ...prev, profilePicture: updated.profilePicture }));
+        await refreshUser();
         setMessage("Foto aggiornata!");
       } else {
         setMessage(updated.message || "Errore durante l'upload");
@@ -105,8 +101,6 @@ export default function Profile() {
   };
 
   const handleRemovePicture = async () => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-
     try {
       const res = await fetch(`${API_BASE}/api/users/me/profile-picture`, {
         method: "DELETE",
@@ -115,8 +109,7 @@ export default function Profile() {
 
       if (!res.ok) throw new Error("Errore rimozione foto");
 
-      const updated = await res.json();
-      setUser((prev) => ({ ...prev, profilePicture: null }));
+      await refreshUser();
       setMessage("Foto profilo rimossa");
     } catch (err) {
       console.error("Errore handleRemovePicture:", err);
@@ -125,7 +118,6 @@ export default function Profile() {
   };
 
   const handleDeleteAccount = async () => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     const conferma = window.confirm("Vuoi davvero eliminare il tuo account? Questa azione è irreversibile.");
     if (!conferma) return;
 
