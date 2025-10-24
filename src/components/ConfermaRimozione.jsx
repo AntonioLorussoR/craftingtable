@@ -30,14 +30,14 @@ export default function ConfermaRimozione({ isOpen, onClose, onConfirm, membro }
         <div className="flex flex-col sm:flex-row justify-end gap-2">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto"
+            className="bg-green-600 text-white px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto"
             disabled={loading}
           >
             Annulla
           </button>
           <button
             onClick={handleConfirm}
-            className="px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto"
+            className="bg-red-600 text-white px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto"
             disabled={loading}
           >
             {loading ? "Rimozione..." : "Rimuovi"}
