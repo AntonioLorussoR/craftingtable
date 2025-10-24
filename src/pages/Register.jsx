@@ -43,46 +43,46 @@ export default function Register({ onLogin }) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4 py-6 sm:px-6 md:px-8">
       <h2 className="text-3xl font-bold mb-6">Registrati</h2>
       <form
         onSubmit={handleSubmit}
-        className="w-80 bg-white p-6 rounded-xl shadow-lg flex flex-col gap-4"
+        className="w-full max-w-sm bg-white p-6 rounded-xl shadow-lg flex flex-col gap-4"
       >
         <input
           type="text"
           placeholder="Nome"
           value={nome}
           onChange={(e) => setNome(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm sm:text-base w-full"
         />
         <input
           type="text"
           placeholder="Cognome"
           value={cognome}
           onChange={(e) => setCognome(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm sm:text-base w-full"
         />
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm sm:text-base w-full"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm sm:text-base w-full"
         />
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        <button className="bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition">
+        <button className="bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition text-sm sm:text-base w-full">
           Registrati
         </button>
       </form>
-      <p className="mt-4 text-sm">
+      <p className="mt-4 text-sm text-center px-2">
         Hai già un account?{" "}
         <span
           onClick={() => navigate("/login")}
@@ -93,7 +93,7 @@ export default function Register({ onLogin }) {
       </p>
       <button
         onClick={() => navigate("/")}
-        className="mt-4 text-sm text-indigo-600 hover:underline"
+        className="mt-4 text-sm text-indigo-600 hover:underline text-center"
       >
         ⬅ Torna alla Home
       </button>
