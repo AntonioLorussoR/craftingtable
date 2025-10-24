@@ -102,14 +102,14 @@ if (token) {
           <button
             onClick={updateDescription}
             disabled={saving || desc === savedDesc}
-            className="px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto">
+            className="bg-green-600 text-white px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto">
             {saving ? "Salvataggio..." : "Salva"}
           </button>
 
           {isCreator && (
             <button
               onClick={handleDeleteTeam}
-              className="px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto">
+              className="bg-red-600 text-white px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto">
               Elimina team
             </button>
         )}
