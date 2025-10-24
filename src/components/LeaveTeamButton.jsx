@@ -49,7 +49,7 @@ export default function LeaveTeamButton({ teamId, token, onLeave }) {
           </button>
           <button
             onClick={() => setConfirming(false)}
-            className="px-4 py-2 text-sm sm:text-base w-full sm:w-auto"
+            className="bg-red-600 text-white px-4 py-2 text-sm sm:text-base w-full sm:w-auto"
           >
             Annulla
           </button>
