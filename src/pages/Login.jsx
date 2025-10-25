@@ -11,25 +11,39 @@ export default function Login({ onLogin }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+
     try {
       const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
+
       const data = await res.json();
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userId", data.user.id);
+
+        // 🔁 Recupera profilo completo
+        const userRes = await fetch(`${API_BASE}/api/users/me`, {
+          headers: { Authorization: `Bearer ${data.token}` },
+        });
+        const userData = await userRes.json();
+
+        if (userRes.ok) {
+          localStorage.setItem("user", JSON.stringify(userData));
+        }
+
         console.log("Token salvato:", data.token);
-        onLogin(data.token);
-        navigate("/dashboard"); // vai alla dashboard
+        onLogin(data.token); // puoi estendere con onLogin(data.token, userData) se serve
+        navigate("/dashboard");
       } else {
-        setError(data.error || "Errore login");
+        setError(data.message || "Errore login");
       }
     } catch (err) {
-      console.error(err);
+      console.error("Errore connessione login:", err);
       setError("Errore di connessione");
     }
   };
