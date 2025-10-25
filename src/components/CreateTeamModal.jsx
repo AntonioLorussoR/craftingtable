@@ -69,14 +69,14 @@ export default function CreateTeamModal({ isOpen, onClose, onCreate, token }) {
         <div className="flex flex-col sm:flex-row justify-end gap-2 mt-2">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto"
+            className="bg-red-600 text-white px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto"
             disabled={loading}
           >
             Annulla
           </button>
           <button
             onClick={handleSubmit}
-            className="px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto"
+            className="bg-green-600 text-white px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto"
             disabled={loading}
           >
             {loading ? "Creazione..." : "Crea"}
