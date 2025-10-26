@@ -14,9 +14,8 @@ export default function OAuthSuccess({ onLogin }) {
       return;
     }
 
-    // Salva token e aggiorna stato globale
+    // Salva token
     localStorage.setItem("token", token);
-    onLogin?.(token);
 
     // Fetch dati utente aggiornati dal backend
     fetch(`${API_BASE}/api/users/me`, {
@@ -25,7 +24,7 @@ export default function OAuthSuccess({ onLogin }) {
       .then(res => res.json())
       .then(user => {
         if (user) {
-          // Salva in localStorage senza sovrascrivere profilePicture già presente
+          // Aggiorna localStorage senza cancellare profilePicture esistente
           const existing = JSON.parse(localStorage.getItem("user") || "{}");
           const updatedUser = {
             ...existing,
@@ -33,11 +32,17 @@ export default function OAuthSuccess({ onLogin }) {
             profilePicture: user.profilePicture || existing.profilePicture || null,
           };
           localStorage.setItem("user", JSON.stringify(updatedUser));
+
+          // Aggiorna stato globale / contesto
+          onLogin?.(token, updatedUser);
         }
       })
       .catch(err => console.error("Errore fetching utente OAuth:", err))
-      .finally(() => navigate("/dashboard", { replace: true }));
+      .finally(() => {
+        navigate("/dashboard", { replace: true });
+      });
   }, [params, navigate, onLogin]);
 
   return null;
 }
+
