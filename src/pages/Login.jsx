@@ -26,7 +26,6 @@ export default function Login({ onLogin }) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userId", data.user.id);
         localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("profilePicture", data.user.profilePicture || "");
         onLogin(data.token);
         navigate("/dashboard");
       } else {
