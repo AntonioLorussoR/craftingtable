@@ -25,23 +25,11 @@ export default function Login({ onLogin }) {
       if (res.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userId", data.user.id);
-
-        // Recupera profilo completo
-        const userRes = await fetch(`${API_BASE}/api/users/me`, {
-          headers: { Authorization: `Bearer ${data.token}` },
-        });
-        const userData = await userRes.json();
-
-        if (userRes.ok) {
-          localStorage.setItem("user", JSON.stringify(userData));
-          localStorage.setItem("profilePicture", data.user.profilePicture);
-        }
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("profilePicture", data.user.profilePicture || "");
         onLogin(data.token);
         navigate("/dashboard");
-      } else {
-        setError(data.message || "Errore login");
-      }
-    } catch (err) {
+      } catch (err) {
       console.error("Errore connessione login:", err);
       setError("Errore di connessione");
     }
