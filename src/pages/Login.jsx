@@ -29,7 +29,10 @@ export default function Login({ onLogin }) {
         localStorage.setItem("profilePicture", data.user.profilePicture || "");
         onLogin(data.token);
         navigate("/dashboard");
-      } catch (err) {
+      } else {
+        setError(data.message); 
+      } 
+    } catch (err) {
       console.error("Errore connessione login:", err);
       setError("Errore di connessione");
     }
