@@ -26,7 +26,7 @@ export default function Login({ onLogin }) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userId", data.user.id);
 
-        // 🔁 Recupera profilo completo
+        // Recupera profilo completo
         const userRes = await fetch(`${API_BASE}/api/users/me`, {
           headers: { Authorization: `Bearer ${data.token}` },
         });
@@ -35,9 +35,7 @@ export default function Login({ onLogin }) {
         if (userRes.ok) {
           localStorage.setItem("user", JSON.stringify(userData));
         }
-
-        console.log("Token salvato:", data.token);
-        onLogin(data.token); // puoi estendere con onLogin(data.token, userData) se serve
+        onLogin(data.token);
         navigate("/dashboard");
       } else {
         setError(data.message || "Errore login");
