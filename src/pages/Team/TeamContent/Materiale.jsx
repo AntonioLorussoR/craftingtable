@@ -74,7 +74,7 @@ export default function Materiale({ team, token }) {
 
   const deleteMaterial = async (materialId) => {
     try {
-      const res = await fetch(`${API_BASE}/api/materials/${materialId}`, {
+      const res = await fetch(`${API_BASE}/api/teams/${team._id}/materials/${materialId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
