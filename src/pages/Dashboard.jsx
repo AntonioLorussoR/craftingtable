@@ -37,7 +37,7 @@ export default function Dashboard() {
     <div className="px-4 py-6 sm:px-6 md:px-8 max-w-screen-lg mx-auto">
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-6 text-center sm:text-left">
         <img
-          src={user.profilePicture || "https://placehold.co/100x100"}
+          src={`${API_BASE}/uploads/profilePics/${user.profilePicture}` || "https://placehold.co/100x100"}
           alt="Foto profilo"
           className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full object-cover border-2 border-gray-300"
         />
