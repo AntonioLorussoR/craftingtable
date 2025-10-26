@@ -25,7 +25,22 @@ export default function Login({ onLogin }) {
       if (res.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userId", data.user.id);
-        localStorage.setItem("user", JSON.stringify(data.user));
+        if (data.user.profilePicture) {
+          const existingUser = JSON.parse(localStorage.getItem("user") || "{}");
+          const updatedUser = {
+            ...existingUser,
+            ...data.user,
+          };
+          localStorage.setItem("user", JSON.stringify(updatedUser));
+        } else {
+          const existingUser = JSON.parse(localStorage.getItem("user") || "{}");
+          const updatedUser = {
+            ...existingUser,
+            ...data.user,
+            profilePicture: existingUser.profilePicture || null
+          };
+          localStorage.setItem("user", JSON.stringify(updatedUser));
+        }
         onLogin(data.token);
         navigate("/dashboard");
       } else {
