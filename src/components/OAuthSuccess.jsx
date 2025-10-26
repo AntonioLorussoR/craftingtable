@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
-export default function OAuthSuccess({ onLogin, setUser }) {
+export default function OAuthSuccess({ onLogin }) {
   const [params] = useSearchParams();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = params.get("token");
@@ -15,6 +14,7 @@ export default function OAuthSuccess({ onLogin, setUser }) {
       return;
     }
 
+    // Salva token
     localStorage.setItem("token", token);
 
     // Fetch dati utente aggiornati dal backend
@@ -24,10 +24,7 @@ export default function OAuthSuccess({ onLogin, setUser }) {
       .then(res => res.json())
       .then(user => {
         if (user) {
-          // Aggiorna stato React e localStorage
-          setUser(user);
-          onLogin?.(token, user);
-
+          // Aggiorna localStorage senza cancellare profilePicture esistente
           const existing = JSON.parse(localStorage.getItem("user") || "{}");
           const updatedUser = {
             ...existing,
@@ -35,18 +32,16 @@ export default function OAuthSuccess({ onLogin, setUser }) {
             profilePicture: user.profilePicture || existing.profilePicture || null,
           };
           localStorage.setItem("user", JSON.stringify(updatedUser));
+
+          // Aggiorna stato globale / contesto
+          onLogin?.(token, updatedUser);
         }
       })
       .catch(err => console.error("Errore fetching utente OAuth:", err))
-      .finally(() => setLoading(false));
-  }, [params, navigate, onLogin, setUser]);
-
-  // Mostra loading finché lo stato user non è pronto
-  useEffect(() => {
-    if (!loading) {
-      navigate("/dashboard", { replace: true });
-    }
-  }, [loading, navigate]);
+      .finally(() => {
+        navigate("/dashboard", { replace: true });
+      });
+  }, [params, navigate, onLogin]);
 
   return null;
 }
