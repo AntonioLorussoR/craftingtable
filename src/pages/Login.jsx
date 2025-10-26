@@ -34,6 +34,7 @@ export default function Login({ onLogin }) {
 
         if (userRes.ok) {
           localStorage.setItem("user", JSON.stringify(userData));
+          localStorage.setItem("profilePicture", data.user.profilePicture);
         }
         onLogin(data.token);
         navigate("/dashboard");
