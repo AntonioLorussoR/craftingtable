@@ -23,24 +23,11 @@ export default function Login({ onLogin }) {
       const data = await res.json();
 
       if (res.ok) {
+        const user =  data.user;
         localStorage.setItem("token", data.token);
-        localStorage.setItem("userId", data.user.id);
-        if (data.user.profilePicture) {
-          const existingUser = JSON.parse(localStorage.getItem("user") || "{}");
-          const updatedUser = {
-            ...existingUser,
-            ...data.user,
-          };
-          localStorage.setItem("user", JSON.stringify(updatedUser));
-        } else {
-          const existingUser = JSON.parse(localStorage.getItem("user") || "{}");
-          const updatedUser = {
-            ...existingUser,
-            ...data.user,
-            profilePicture: existingUser.profilePicture || null
-          };
-          localStorage.setItem("user", JSON.stringify(updatedUser));
-        }
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("userId", user.id);
+        
         onLogin(data.token);
         navigate("/dashboard");
       } else {
