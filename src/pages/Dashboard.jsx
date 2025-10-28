@@ -16,7 +16,7 @@ export default function Dashboard() {
       });
       const data = await res.json();
       if (res.ok) {
-        setUser(data.user);
+        setUser(data);
       } else {
         setError(data.message || "Errore nel recupero dell'utente");
       }
