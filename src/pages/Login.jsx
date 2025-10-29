@@ -26,7 +26,7 @@ export default function Login({ onLogin }) {
         const user =  data.user;
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("userId", user.id);
+        localStorage.setItem("userId", data.user.id);
         
         onLogin(data.token);
         navigate("/dashboard");
