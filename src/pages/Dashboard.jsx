@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function Dashboard() {
+export default function Dashboard({ token }) {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
 
@@ -8,10 +8,7 @@ export default function Dashboard() {
 
   const fetchUser = async () => {
     try {
-      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-      if (!token) return;
-
-      const res = await fetch(`${API_BASE}/api/users/me`, {
+        const res = await fetch(`${API_BASE}/api/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -25,10 +22,8 @@ export default function Dashboard() {
       console.error("Errore fetch user:", err);
     }
   };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  fetchUser();
+  }, [token]);
 
   if (error) return <div className="p-4 text-red-600">{error}</div>;
   if (!user) return <div className="p-4">Caricamento utente...</div>;
