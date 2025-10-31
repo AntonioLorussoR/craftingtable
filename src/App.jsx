@@ -88,6 +88,18 @@ export default function App() {
     };
 
     checkToken();
+
+    // Refresh automatico ogni 50 minuti
+    const refreshInterval = setInterval(async () => {
+      const newToken = await getNewAccessToken();
+      if (newToken) {
+        localStorage.setItem("token", newToken);
+        setToken(newToken);
+        console.log("🔄 Token aggiornato automaticamente");
+      }
+    }, 1000 * 60 * 50); // ogni 50 minuti
+
+    return () => clearInterval(refreshInterval); // pulizia
   }, [token]);
 
   return (
