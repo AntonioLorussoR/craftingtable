@@ -1,6 +1,6 @@
 export async function getNewAccessToken() {
   try {
-    const res = await fetch("/api/auth/refresh", {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/refresh`, {
       method: "GET",
       credentials: "include", 
     });
