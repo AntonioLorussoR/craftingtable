@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -9,6 +9,7 @@ import Teams from "./pages/Teams";
 import OAuthSuccess from "./components/OAuthSuccess";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/protectedRoute";
+import { getNewAccessToken } from "./services/auth";
 
 function AppContent({ token, setToken }) {
   const location = useLocation();
@@ -19,7 +20,12 @@ function AppContent({ token, setToken }) {
     setToken(newToken);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+
     localStorage.removeItem("token");
     setToken(null);
     navigate("/");
@@ -36,7 +42,7 @@ function AppContent({ token, setToken }) {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/register" element={<Register onLogin={handleLogin} />} />
-          <Route path="/oauth-success" element={<OAuthSuccess onLogin={handleLogin}/>} />
+          <Route path="/oauth-success" element={<OAuthSuccess onLogin={handleLogin} />} />
           <Route
             path="/dashboard"
             element={
@@ -69,6 +75,20 @@ function AppContent({ token, setToken }) {
 
 export default function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
+
+  useEffect(() => {
+    const checkToken = async () => {
+      if (!token) {
+        const newToken = await getNewAccessToken();
+        if (newToken) {
+          localStorage.setItem("token", newToken);
+          setToken(newToken);
+        }
+      }
+    };
+
+    checkToken();
+  }, [token]);
 
   return (
     <Router>
