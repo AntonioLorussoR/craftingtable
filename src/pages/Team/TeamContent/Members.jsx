@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import ConfermaRimozione from "../../../components/ConfermaRimozione";
 import getCurrentUserId from "../teamUtils/getCurrentUserId.js";
 
