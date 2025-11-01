@@ -1,5 +1,5 @@
 import { useState } from "react";
-import  { jwtDecode } from "jwt-decode";
+import getCurrentUserId from "../utils/getCurrentUserId";
 
 export default function Description({ team, token, onUpdate, onDelete }) {
   const [desc, setDesc] = useState(team.description || "");
@@ -11,15 +11,7 @@ export default function Description({ team, token, onUpdate, onDelete }) {
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
   
-let currentUserId = null;
-if (token) {
-  try {
-    const decoded = jwtDecode(token);
-    currentUserId = decoded._id || decoded.id || decoded.userId || decoded.sub;
-  } catch (err) {
-    console.warn("Token non valido:", err);
-  }
-}
+const currentUserId = getCurrentUserId(token);
 
 
   const isAdmin = team?.members?.some(
