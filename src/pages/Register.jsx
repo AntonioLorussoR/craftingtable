@@ -28,7 +28,6 @@ export default function Register({ onLogin }) {
       const data = await res.json();
 
       if (res.ok) {
-        console.log("Token ricevuto:", data.token);
         localStorage.setItem("token", data.token);
         localStorage.setItem("userId", data.user.id);
         onLogin(data.token);
