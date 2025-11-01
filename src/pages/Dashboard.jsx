@@ -25,7 +25,7 @@ export default function Dashboard({ token }) {
     };
 
     if (token) fetchUser();
-  }, [token, API_BASE]);
+  }, [token]);
 
   const getProfileImageSrc = () => {
     if (!user?.profilePicture?.data) return "https://placehold.co/100x100";
