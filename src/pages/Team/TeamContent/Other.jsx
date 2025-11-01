@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
+import getCurrentUserId from "../teamUtils/getCurrentUserId.js";
 
 export default function Other({ team, token }) {
   const [inviteLink, setInviteLink] = useState("");
@@ -17,15 +17,7 @@ export default function Other({ team, token }) {
 
   if (!team) return null;
 
-  let currentUserId = null;
-  if (token) {
-    try {
-      const decoded = jwtDecode(token);
-      currentUserId = decoded._id || decoded.id || decoded.userId || decoded.sub;
-    } catch (err) {
-      console.warn("Token non valido:", err);
-    }
-  }
+  const currentUserId = getCurrentUserId(token);
 
   const isAdmin = team?.members?.some(
     (m) =>
