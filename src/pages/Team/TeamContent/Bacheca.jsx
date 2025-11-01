@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import getCurrentUserId from "../teamUtils/getCurrentUserId.js";
+import isAdmin from "../teamUtils/isAdmin";
 
 
 export default function Bacheca({ team, token }) {
@@ -11,11 +12,7 @@ export default function Bacheca({ team, token }) {
 
   const currentUserId = getCurrentUserId(token);
 
-  const isAdmin = team?.members?.some(
-    (m) =>
-      String(m.user?._id || m.user) === String(currentUserId) &&
-      (m.role === "Admin" || m.role === "Creator")
-  );
+  const isAdmin = isAdmin(team, currentUserId);
 
   const fetchPosts = async () => {
     if (!token || !team?._id) return;
