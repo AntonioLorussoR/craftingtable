@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import getCurrentUserId from "src/utils/getCurrentUserId.js";
+import getCurrentUserId from "../teamUtils/getCurrentUserId.js";
 
 
 export default function Bacheca({ team, token }) {
