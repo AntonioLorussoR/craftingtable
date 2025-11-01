@@ -1,5 +1,6 @@
 import { useState } from "react";
 import getCurrentUserId from "../teamUtils/getCurrentUserId.js";
+import isMinAdmin from "../teamUtils/isMinAdmin";
 
 export default function Description({ team, token, onUpdate, onDelete }) {
   const [desc, setDesc] = useState(team.description || "");
@@ -8,16 +9,13 @@ export default function Description({ team, token, onUpdate, onDelete }) {
   const [message, setMessage] = useState("");
   const [deleteError, setDeleteError] = useState("");
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
   
-const currentUserId = getCurrentUserId(token);
+  const currentUserId = getCurrentUserId(token);
 
 
-  const isAdmin = team?.members?.some(
-    (m) => String(m.user?._id || m.user) === String(currentUserId) && (m.role === "Admin" || m.role === "Creator")
-  );
-
+  const isAdmin = isMinAdmin(team, currentUserId);
 
   const isCreator = team?.members?.some(
     (m) => String(m.user?._id || m.user) === String(currentUserId) && (m.role === "Creator")
