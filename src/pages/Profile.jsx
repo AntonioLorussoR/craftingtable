@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import getProfileImageSrc from "../utils/getProfileImageSrc";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
@@ -67,7 +68,7 @@ export default function Profile() {
       const updated = await res.json();
       if (res.ok) {
         await refreshUser();
-        setMessage("✅ Profilo aggiornato con successo");
+        setMessage("Profilo aggiornato con successo");
       } else {
         setMessage(updated.message || "Errore durante l'aggiornamento");
       }
@@ -119,15 +120,6 @@ export default function Profile() {
     }
   };
 
-  const getProfileImageSrc = () => {
-    if (!user?.profilePicture?.data) return "https://placehold.co/100x100";
-
-    // Converti buffer MongoDB in base64
-    const binary = new Uint8Array(user.profilePicture.data.data);
-    const base64String = btoa(binary.reduce((data, byte) => data + String.fromCharCode(byte), ""));
-    return `data:${user.profilePicture.contentType};base64,${base64String}`;
-  };
-
   const handleDeleteAccount = async () => {
     const conferma = window.confirm(
       "Vuoi davvero eliminare il tuo account? Questa azione è irreversibile."
@@ -162,7 +154,7 @@ export default function Profile() {
           {/* Foto profilo */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
             <img
-              src={getProfileImageSrc()}
+              src={getProfileImageSrc(user)}
               alt="Profile"
               className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full object-cover border"
             />
