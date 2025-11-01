@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import getProfileImageSrc from "../utils/getProfileImageSrc";
+import getProfileImageSrc from "src/utils/getCurrentUserId.js";
 
 export default function Dashboard({ token }) {
   const [user, setUser] = useState(null);
