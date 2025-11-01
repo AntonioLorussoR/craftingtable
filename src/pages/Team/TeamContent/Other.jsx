@@ -80,7 +80,7 @@ export default function Other({ team, token }) {
       {isAdmin ? (
         <div className="space-y-4">
           <p className="text-gray-700 text-sm sm:text-base">
-            Per accoppiare il gruppo Telegram al team, invia questo comando nel gruppo:
+            Per accoppiare il gruppo Telegram al team, inserisci @MrWeTeamBot nel gruppo Telegram preposto. Conferiscigli poteri di Admin ed invia questo comando nel gruppo:
           </p>
           <pre className="bg-gray-100 p-2 rounded border border-gray-300 text-sm">
             /accoppia {team.telegramCode}
