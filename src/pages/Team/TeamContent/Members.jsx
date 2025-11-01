@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ConfermaRimozione from "../../../components/ConfermaRimozione";
 import getCurrentUserId from "../teamUtils/getCurrentUserId.js";
+import isMinAdmin from "../teamUtils/isMinAdmin";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
@@ -10,12 +11,8 @@ export default function Members({ team, token, onTeamsUpdate }) {
 
   const currentUserId = getCurrentUserId(token);
 
-  const isAdmin = team?.members?.some(
-    (m) =>
-      String(m.user?._id || m.user) === String(currentUserId) &&
-      (m.role === "Admin" || m.role === "Creator")
-  );
-
+  const isAdmin = isMinAdmin(team, currentUserId);
+  
   const makeAdmin = async (memberId) => {
     try {
       const res = await fetch(`${API_BASE}/api/teams/${team._id}/admin/${memberId}`, {
