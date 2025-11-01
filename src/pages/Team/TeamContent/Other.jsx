@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import getCurrentUserId from "../teamUtils/getCurrentUserId.js";
+import isMinAdmin from "../teamUtils/isMinAdmin";
 
 export default function Other({ team, token }) {
   const [inviteLink, setInviteLink] = useState("");
@@ -19,11 +20,7 @@ export default function Other({ team, token }) {
 
   const currentUserId = getCurrentUserId(token);
 
-  const isAdmin = team?.members?.some(
-    (m) =>
-      String(m.user?._id || m.user) === String(currentUserId) &&
-      (m.role === "Admin" || m.role === "Creator")
-  );
+  const isAdmin = isMinAdmin(team, currentUserId);
 
   const handleSaveLink = async () => {
     if (!inviteLink.trim()) return;
