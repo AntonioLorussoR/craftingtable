@@ -1,5 +1,5 @@
 import { useState } from "react";
-import getCurrentUserId from "../utils/getCurrentUserId";
+import getCurrentUserId from "../../../../utils/getCurrentUserId";
 
 export default function Description({ team, token, onUpdate, onDelete }) {
   const [desc, setDesc] = useState(team.description || "");
