@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
-export default function Login({ onLogin }) {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,12 +25,7 @@ export default function Login({ onLogin }) {
       const data = await res.json();
 
       if (res.ok) {
-        const user =  data.user;
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("userId", data.user.id);
-        
-        onLogin(data.token);
+        login(data.token, data.user);
         navigate("/dashboard");
       } else {
         setError(data.message); 
