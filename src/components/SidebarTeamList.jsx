@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export default function SidebarTeamList({ teams, onSelectTeam, onCreateTeam, fetchTeams }) {
+  const { token } = useContext(AuthContext);
   const [accessCode, setAccessCode] = useState("");
   const [error, setError] = useState("");
   const [selectedTeamId, setSelectedTeamId] = useState(null);
@@ -9,7 +11,6 @@ export default function SidebarTeamList({ teams, onSelectTeam, onCreateTeam, fet
 
   const handleJoinTeam = async (e) => {
     e.preventDefault();
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (!token) return;
 
     try {
