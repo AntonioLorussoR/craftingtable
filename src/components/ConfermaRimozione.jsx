@@ -8,7 +8,7 @@ export default function ConfermaRimozione({ isOpen, onClose, onConfirm, membro }
     setLoading(true);
     setError("");
     try {
-      await onConfirm(); // la logica di rimozione è gestita dal componente padre
+      await onConfirm(); 
       onClose();
     } catch (err) {
       setError("Errore durante la rimozione");
