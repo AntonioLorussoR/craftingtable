@@ -6,7 +6,7 @@ import Description from "./TeamContent/Description";
 import Chat from "./TeamContent/Chat";
 import Materiale from "./TeamContent/Materiale";
 import Other from "./TeamContent/Other";
-import  { AuthContext } from "../../../context/AuthContext";
+import  { AuthContext } from "../../context/AuthContext";
 
 export default function TeamPage({
   team: selectedTeam,
