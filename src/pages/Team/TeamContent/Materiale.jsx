@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
-import getCurrentUserId from "../teamUtils/getCurrentUserId.js";
+import { useContext, useState, useEffect } from "react";
+import { AuthContext } from "../../../context/AuthContext";
 import isMinAdmin from "../teamUtils/isMinAdmin";
 
-export default function Materiale({ team, token }) {
+export default function Materiale({ team }) {
+  const { token, user } = useContext(AuthContext);
+  const currentUserId = user?.id;
+
   const [file, setFile] = useState(null);
   const [materials, setMaterials] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
-  
-  const currentUserId = getCurrentUserId(token);
-
   const isAdmin = isMinAdmin(team, currentUserId);
 
   useEffect(() => {
