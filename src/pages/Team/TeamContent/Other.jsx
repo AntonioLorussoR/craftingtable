@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
-import getCurrentUserId from "../teamUtils/getCurrentUserId.js";
+import { useContext, useState, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import isMinAdmin from "../teamUtils/isMinAdmin";
 
-export default function Other({ team, token }) {
+export default function Other({ team }) {
+  const { token, user } = useContext(AuthContext);
+  const currentUserId = user?.id;
+
   const [inviteLink, setInviteLink] = useState("");
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -17,8 +20,6 @@ export default function Other({ team, token }) {
   }, [team]);
 
   if (!team) return null;
-
-  const currentUserId = getCurrentUserId(token);
 
   const isAdmin = isMinAdmin(team, currentUserId);
 
