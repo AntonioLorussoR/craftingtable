@@ -1,52 +1,39 @@
-import { useState, useEffect, useRef } from "react";
-import io from "socket.io-client";
+import { useContext, useState, useEffect, useRef } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
-export default function Chat({ team, token, currentUserId }) {
+export default function Chat({ team }) {
+  const { token, user, socket } = useContext(AuthContext);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const [socketConnected, setSocketConnected] = useState(false);
-  const socketRef = useRef(null);
   const messagesEndRef = useRef(null);
 
-  const API_BASE = import.meta.env.VITE_API_BASE_URL;
-  
   useEffect(() => {
-    if (!team) return;
+    if (!team || !socket) return;
 
-    if (socketRef.current) {
-      socketRef.current.disconnect();
-    }
+    socket.emit("joinTeam", team._id);
 
-    socketRef.current = io(`${API_BASE}`, {
-      auth: { token },
-    });
-
-    socketRef.current.on("connect", () => {
-      console.log("✅ Socket connesso!");
-      setSocketConnected(true);
-      socketRef.current.emit("joinTeam", team._id);
-    });
-
-    socketRef.current.on("chatMessage", (msg) => {
-      setMessages((prev) => [...prev, msg]);
-    });
-
-    socketRef.current.emit("getMessages", team._id, (historical) => {
+    socket.emit("getMessages", team._id, (historical) => {
       setMessages(historical);
     });
 
-    return () => {
-      socketRef.current.disconnect();
+    const handleIncoming = (msg) => {
+      setMessages((prev) => [...prev, msg]);
     };
-  }, [team, token]);
+
+    socket.on("chatMessage", handleIncoming);
+
+    return () => {
+      socket.off("chatMessage", handleIncoming);
+    };
+  }, [team, socket]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const sendMessage = () => {
-    if (!newMessage.trim() || !socketConnected) return;
-    socketRef.current.emit("sendMessage", {
+    if (!newMessage.trim()) return;
+    socket.emit("sendMessage", {
       teamId: team._id,
       content: newMessage,
     });
@@ -65,9 +52,9 @@ export default function Chat({ team, token, currentUserId }) {
           <div
             key={i}
             className={`p-2 rounded text-sm sm:text-base ${
-              msg.author?._id === currentUserId
-              ? "bg-blue-100 text-right"
-              : "bg-gray-100 text-left"
+              msg.author?._id === user?.id
+                ? "bg-blue-100 text-right"
+                : "bg-gray-100 text-left"
             }`}
           >
             <div>
