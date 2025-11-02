@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect, useRef } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
 
 export default function Chat({ team }) {
   const { token, user, socket } = useContext(AuthContext);
