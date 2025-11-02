@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import getProfileImageSrc from "../utils/getProfileImageSrc";
+import { AuthContext } from "../context/AuthContext";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 export default function Profile() {
+  const { token } = useContext(AuthContext);
   const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -15,9 +17,7 @@ export default function Profile() {
   });
   const [profilePicture, setProfilePicture] = useState(null);
   const [message, setMessage] = useState("");
-
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-
+  
   const refreshUser = async () => {
     if (!token) return;
     try {
