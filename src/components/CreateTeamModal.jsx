@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
-export default function CreateTeamModal({ isOpen, onClose, onCreate, token }) {
+export default function CreateTeamModal({ isOpen, onClose, onCreate }) {
+  const { token } = useContext(AuthContext);
   const [teamName, setTeamName] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
-
 
   const handleSubmit = async () => {
     if (!teamName.trim()) {
