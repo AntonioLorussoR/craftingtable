@@ -1,8 +1,11 @@
-import { useState } from "react";
-import getCurrentUserId from "../teamUtils/getCurrentUserId.js";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../../context/AuthContext";
 import isMinAdmin from "../teamUtils/isMinAdmin";
 
-export default function Description({ team, token, onUpdate, onDelete }) {
+export default function Description({ team, onUpdate, onDelete }) {
+  const { token, user } = useContext(AuthContext);
+  const currentUserId = user?.id;
+
   const [desc, setDesc] = useState(team.description || "");
   const [savedDesc, setSavedDesc] = useState(team.description || "");
   const [saving, setSaving] = useState(false);
@@ -11,14 +14,9 @@ export default function Description({ team, token, onUpdate, onDelete }) {
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
-  
-  const currentUserId = getCurrentUserId(token);
-
-
   const isAdmin = isMinAdmin(team, currentUserId);
-
   const isCreator = team?.members?.some(
-    (m) => String(m.user?._id || m.user) === String(currentUserId) && (m.role === "Creator")
+    (m) => String(m.user?._id || m.user) === String(currentUserId) && m.role === "Creator"
   );
 
   const updateDescription = async () => {
@@ -63,7 +61,7 @@ export default function Description({ team, token, onUpdate, onDelete }) {
       });
 
       if (res.ok) {
-        if (onDelete) onDelete(); 
+        if (onDelete) onDelete();
       } else {
         const data = await res.json();
         setDeleteError(data.message || "Errore durante l'eliminazione del team");
@@ -102,10 +100,9 @@ export default function Description({ team, token, onUpdate, onDelete }) {
               className="bg-red-600 text-white px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto">
               Elimina team
             </button>
-        )}
-  </div>
-)}
-
+          )}
+        </div>
+      )}
 
       {message && <p className="mt-2 text-sm text-gray-600">{message}</p>}
       {deleteError && <p className="mt-2 text-sm text-red-600">{deleteError}</p>}
