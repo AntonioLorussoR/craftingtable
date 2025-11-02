@@ -1,19 +1,16 @@
 import { useContext, useEffect, useState } from "react";
-import getCurrentUserId from "../teamUtils/getCurrentUserId.js";
 import isMinAdmin from "../teamUtils/isMinAdmin";
 import { AuthContext } from "../../../context/AuthContext";
 
-
 export default function Bacheca({ team }) {
-  const { token } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState("");
   const [loading, setLoading] = useState(true);
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
-  const currentUserId = getCurrentUserId(token);
-
+  const currentUserId = user?.id;
   const isAdmin = isMinAdmin(team, currentUserId);
 
   const fetchPosts = async () => {
@@ -53,7 +50,7 @@ export default function Bacheca({ team }) {
       setPosts([addedPost, ...posts]);
       setNewPost("");
 
-      // Notifica Telegram
+      // Notifica Telegram (se implementata)
 
     } catch (err) {
       console.error("Errore handleAddPost:", err);
