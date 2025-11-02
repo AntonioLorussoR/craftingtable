@@ -1,4 +1,3 @@
-// src/App.jsx
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import Home from "./pages/Home";
@@ -68,12 +67,6 @@ export default function App() {
   return (
     <Router>
       <AppContent />
-    </Router>
-  );
-}
-
-    <Router>
-      <AppContent token={token} setToken={setToken} />
     </Router>
   );
 }
