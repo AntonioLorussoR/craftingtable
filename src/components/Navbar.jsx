@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
-export default function Navbar({ onLogout }) {
+export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
 
   return (
     <nav className="bg-blue-600 text-white shadow-md">
@@ -28,7 +30,7 @@ export default function Navbar({ onLogout }) {
           </div>
 
           <button
-            onClick={onLogout}
+            onClick={logout}
             className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded-md text-sm font-medium"
           >
             Logout
@@ -53,7 +55,7 @@ export default function Navbar({ onLogout }) {
               Teams
             </button>
             <button
-              onClick={onLogout}
+              onClick={logout}
               className="text-left px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded mt-2"
             >
               Logout
