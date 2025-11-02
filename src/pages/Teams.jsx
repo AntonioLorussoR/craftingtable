@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SidebarTeamList from "../components/SidebarTeamList";
 import TeamPage from "./Team/TeamPage";
 import CreateTeamModal from "../components/CreateTeamModal";
+import { AuthContext } from "../context/AuthContext";
 
-export default function Teams({ token }) {
+export default function Teams() {
   const [teams, setTeams] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const { token } = useContext(AuthContext);
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
