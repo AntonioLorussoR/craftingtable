@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import TeamNavbar from "../../components/Team/TeamNavbar";
 import Bacheca from "./TeamContent/Bacheca";
 import Members from "./TeamContent/Members";
@@ -6,17 +6,17 @@ import Description from "./TeamContent/Description";
 import Chat from "./TeamContent/Chat";
 import Materiale from "./TeamContent/Materiale";
 import Other from "./TeamContent/Other";
-import  { socket } from "../../main";
+import  { AuthContext } from "../../../context/AuthContext";
 
 export default function TeamPage({
   team: selectedTeam,
-  token: propToken,
   setTeams,
   setSelectedTeam,
 }) {
   const [activeTab, setActiveTab] = useState("bacheca");
   const [team, setTeam] = useState(selectedTeam); // stato locale
-  const token = propToken || (typeof window !== "undefined" ? localStorage.getItem("token") : null);
+  const { token, socket } = useContext(AuthContext);
+
 
   useEffect(() => {
     setTeam(selectedTeam);
