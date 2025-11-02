@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-export default function LeaveTeamButton({ teamId, token, onLeave }) {
+export default function LeaveTeamButton({ teamId, onLeave }) {
+  const { token } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState("");
