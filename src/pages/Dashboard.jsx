@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 import getProfileImageSrc from "../utils/getProfileImageSrc";
 
-export default function Dashboard({ token }) {
+export default function Dashboard() {
+  const { token } = useContext(AuthContext);
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
 
