@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
-export default function Register({ onLogin }) {
+export default function Register() {
   const [nome, setNome] = useState("");
   const [cognome, setCognome] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { login } = useContext(AuthContext);
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
@@ -28,9 +30,7 @@ export default function Register({ onLogin }) {
       const data = await res.json();
 
       if (res.ok) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("userId", data.user.id);
-        onLogin(data.token);
+        login(data.token, data.user);
         navigate("/dashboard"); // vai alla dashboard dopo la registrazione
       } else {
         setError(data.message || "Errore registrazione");
