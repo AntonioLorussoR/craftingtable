@@ -1,5 +1,6 @@
+// src/App.jsx
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useContext } from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -9,30 +10,20 @@ import Teams from "./pages/Teams";
 import OAuthSuccess from "./components/OAuthSuccess";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/protectedRoute";
-import { getNewAccessToken } from "./services/auth";
+import { AuthContext } from "./context/AuthContext";
 
-function AppContent({ token, setToken }) {
+function AppContent() {
   const location = useLocation();
   const navigate = useNavigate();
-
-  const handleLogin = (newToken) => {
-    localStorage.setItem("token", newToken);
-    setToken(newToken);
-  };
-
-  const handleLogout = async () => {
-    await fetch("/api/auth/logout", {
-      method: "POST",
-      credentials: "include",
-    });
-
-    localStorage.removeItem("token");
-    setToken(null);
-    navigate("/");
-  };
+  const { token, login, logout } = useContext(AuthContext);
 
   const hideNavbarOnPaths = ["/", "/login", "/register"];
   const showNavbar = !hideNavbarOnPaths.includes(location.pathname);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+  };
 
   return (
     <>
@@ -40,9 +31,9 @@ function AppContent({ token, setToken }) {
       <div className={location.pathname === "/" ? "" : "p-6"}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          <Route path="/register" element={<Register onLogin={handleLogin} />} />
-          <Route path="/oauth-success" element={<OAuthSuccess onLogin={handleLogin} />} />
+          <Route path="/login" element={<Login onLogin={login} />} />
+          <Route path="/register" element={<Register onLogin={login} />} />
+          <Route path="/oauth-success" element={<OAuthSuccess onLogin={login} />} />
           <Route
             path="/dashboard"
             element={
@@ -74,35 +65,13 @@ function AppContent({ token, setToken }) {
 }
 
 export default function App() {
-  const [token, setToken] = useState(localStorage.getItem("token"));
-
-  useEffect(() => {
-    const checkToken = async () => {
-      if (!token) {
-        const newToken = await getNewAccessToken();
-        if (newToken) {
-          localStorage.setItem("token", newToken);
-          setToken(newToken);
-        }
-      }
-    };
-
-    checkToken();
-
-    // Refresh automatico ogni 50 minuti
-    const refreshInterval = setInterval(async () => {
-      const newToken = await getNewAccessToken();
-      if (newToken) {
-        localStorage.setItem("token", newToken);
-        setToken(newToken);
-        console.log("🔄 Token aggiornato automaticamente");
-      }
-    }, 1000 * 60 * 50); // ogni 50 minuti
-
-    return () => clearInterval(refreshInterval); // pulizia
-  }, [token]);
-
   return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+}
+
     <Router>
       <AppContent token={token} setToken={setToken} />
     </Router>
