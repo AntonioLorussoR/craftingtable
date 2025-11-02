@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
 import isMinAdmin from "../teamUtils/isMinAdmin";
 
 export default function Other({ team }) {
