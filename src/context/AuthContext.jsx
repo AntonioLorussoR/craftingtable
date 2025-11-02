@@ -1,7 +1,10 @@
 // src/context/AuthContext.jsx
 import { createContext, useState, useEffect } from "react";
+import { io } from "socket.io-client";
 
 export const AuthContext = createContext();
+
+let socket;
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -23,8 +26,25 @@ export function AuthProvider({ children }) {
     localStorage.clear();
   };
 
+  useEffect(() => {
+    if (token) {
+      if (!socket) {
+        socket = io(import.meta.env.VITE_API_BASE_URL, {
+          transports: ["websocket", "polling"],
+          withCredentials: true,
+          auth: { token },
+        });
+      } else {
+        socket.auth = { token };
+        socket.connect();
+      }
+    } else {
+      if (socket) socket.disconnect();
+    }
+  }, [token]);
+
   return (
-    <AuthContext.Provider value={{ token, user, login, logout }}>
+    <AuthContext.Provider value={{ token, user, login, logout, socket }}>
       {children}
     </AuthContext.Provider>
   );
