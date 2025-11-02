@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import getCurrentUserId from "../teamUtils/getCurrentUserId.js";
 import isMinAdmin from "../teamUtils/isMinAdmin";
+import { AuthContext } from "../../../context/AuthContext";
 
 
-export default function Bacheca({ team, token }) {
+export default function Bacheca({ team }) {
+  const { token } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState("");
   const [loading, setLoading] = useState(true);
