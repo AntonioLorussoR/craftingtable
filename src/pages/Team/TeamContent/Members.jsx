@@ -1,18 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../../context/AuthContext";
 import ConfermaRimozione from "../../../components/ConfermaRimozione";
-import getCurrentUserId from "../teamUtils/getCurrentUserId.js";
 import isMinAdmin from "../teamUtils/isMinAdmin";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
-export default function Members({ team, token, onTeamsUpdate }) {
+export default function Members({ team, onTeamsUpdate }) {
+  const { token, user } = useContext(AuthContext);
+  const currentUserId = user?.id;
+
   const [showModal, setShowModal] = useState(false);
   const [membroSelezionato, setMembroSelezionato] = useState(null);
 
-  const currentUserId = getCurrentUserId(token);
-
   const isAdmin = isMinAdmin(team, currentUserId);
-  
+
   const makeAdmin = async (memberId) => {
     try {
       const res = await fetch(`${API_BASE}/api/teams/${team._id}/admin/${memberId}`, {
