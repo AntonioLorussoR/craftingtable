@@ -50,8 +50,6 @@ export default function Bacheca({ team }) {
       setPosts([addedPost, ...posts]);
       setNewPost("");
 
-      // Notifica Telegram (se implementata)
-
     } catch (err) {
       console.error("Errore handleAddPost:", err);
     }
