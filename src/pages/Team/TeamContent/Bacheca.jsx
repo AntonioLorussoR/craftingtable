@@ -114,4 +114,4 @@ export default function Bacheca({ team }) {
       )}
     </div>
   );
-} //test
+} 
