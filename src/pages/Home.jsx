@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import GoogleSignInButton from "../components/GoogleSignInButton";
 
@@ -6,11 +7,11 @@ export default function Home() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  const { token } = useContext(AuthContext);
+  
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (!token) return;
 
     fetch(`${API_BASE}/api/users/me`, {
